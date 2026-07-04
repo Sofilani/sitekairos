@@ -1,3 +1,4 @@
+const path = require("path");
 const express = require("express");
 const cors = require("cors");
 const db = require("./database/database");
@@ -7,6 +8,8 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+app.use(express.static(path.join(__dirname, "../frontend")));
+
 app.use(usuarioRoutes);
 
 app.get("/", (req, res) => {
