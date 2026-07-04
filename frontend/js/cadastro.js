@@ -24,6 +24,20 @@ botaoCadastrar.addEventListener("click", async function () {
 
     const dados = await resposta.json();
 
+    const mensagem = document.getElementById("mensagem");
+
+    mensagem.textContent = dados.mensagem || dados.erro;
+
+    if (resposta.ok) {
+
+    setTimeout(() => {
+
+        window.location.href = "index.html";
+
+    }, 2000);
+
+}
+
     console.log(dados);
 
 });
