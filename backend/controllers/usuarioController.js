@@ -1,5 +1,5 @@
-const usuarioModel = require("../models/usuarioModel");
 const bcrypt = require("bcrypt");
+const usuarioModel = require("../models/usuarioModel");
 
 async function cadastrar(req, res) {
 
@@ -7,10 +7,7 @@ async function cadastrar(req, res) {
 
     try {
 
-        const senhaCriptografada = await bcrypt.hash(senha, 10);
-
-// Salva a senha criptografada
-        await usuarioModel.criarUsuario(nome, email, senhaCriptografada);
+        await usuarioModel.criarUsuario(nome, email, senha);
 
         res.status(201).json({
             mensagem: "Usuário cadastrado com sucesso!"
@@ -26,6 +23,51 @@ async function cadastrar(req, res) {
 
 }
 
+async function login(req, res) {
+
+    try {
+
+        const { email, senha } = req.body;
+
+        // Procura o usuário
+        const usuario = await usuarioModel.buscarPorEmail(email);
+
+        if (!usuario) {
+            return res.status(401).json({
+                erro: "E-mail ou senha inválidos."
+            });
+        }
+
+        // Compara a senha digitada com a senha criptografada
+        const senhaCorreta = await bcrypt.compare(senha, usuario.senha);
+
+        if (!senhaCorreta) {
+            return res.status(401).json({
+                erro: "E-mail ou senha inválidos."
+            });
+        }
+
+        res.json({
+            mensagem: "Login realizado com sucesso!",
+            usuario: {
+                id: usuario.id,
+                nome: usuario.nome,
+                email: usuario.email,
+                cargo: usuario.cargo
+            }
+        });
+
+    } catch (erro) {
+
+        res.status(500).json({
+            erro: erro.message
+        });
+
+    }
+
+}
+
 module.exports = {
-    cadastrar
+    cadastrar,
+    login
 };
