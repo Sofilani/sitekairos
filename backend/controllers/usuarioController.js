@@ -24,6 +24,8 @@ async function cadastrar(req, res) {
 }
 
 async function login(req, res) {
+     console.log("===== LOGIN =====");
+    console.log(req.body);
 
     try {
 
