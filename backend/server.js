@@ -3,6 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const db = require("./database/database");
 const usuarioRoutes = require("./routes/usuarioRoutes");
+const estatisticasRoutes = require("./routes/estatisticasRoutes");
 
 const app = express();
 
@@ -11,6 +12,7 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, "../frontend")));
 
 app.use(usuarioRoutes);
+app.use(estatisticasRoutes);
 
 app.get("/", (req, res) => {
     res.send("Servidor KAIRÓS funcionando! ");
