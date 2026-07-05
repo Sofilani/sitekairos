@@ -1,4 +1,5 @@
 const usuarioModel = require("../models/usuarioModel");
+const bcrypt = require("bcrypt");
 
 async function cadastrar(req, res) {
 
@@ -6,7 +7,10 @@ async function cadastrar(req, res) {
 
     try {
 
-        await usuarioModel.criarUsuario(nome, email, senha);
+        const senhaCriptografada = await bcrypt.hash(senha, 10);
+
+// Salva a senha criptografada
+        await usuarioModel.criarUsuario(nome, email, senhaCriptografada);
 
         res.status(201).json({
             mensagem: "Usuário cadastrado com sucesso!"
