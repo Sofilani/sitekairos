@@ -1,13 +1,13 @@
 /* ==========================================================================
-   KAIRÓS - PACIENTES STYLES (RESPONSIVE)
+   KAIRÓS - PACIENTES STYLES (LARGE SCALE & RESPONSIVE)
    ========================================================================== */
 
 @import url('global.css');
 
-/* FULL WIDTH EXPANDED CONTAINER FOR PACIENTES */
+/* FULL WIDTH EXPANDED CONTAINER */
 main.container {
   width: 96%;
-  max-width: 1600px;
+  max-width: 1750px;
 }
 
 /* PAGE HEADER SECTION */
@@ -15,32 +15,32 @@ main.container {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 25px;
+  margin-bottom: 30px;
   flex-wrap: wrap;
-  gap: 15px;
+  gap: 20px;
 }
 
 .page-title {
   color: var(--primary-color);
-  font-size: 1.6rem;
+  font-size: 2.2rem;
   font-weight: 700;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
 }
 
 #btnNovoPaciente {
   background-color: var(--secondary-color);
   color: white;
   border: none;
-  padding: 12px 22px;
+  padding: 16px 30px;
   border-radius: var(--radius-md);
-  font-size: 0.95rem;
+  font-size: 1.15rem;
   font-weight: 600;
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   transition: var(--transition);
   box-shadow: var(--shadow-sm);
 }
@@ -59,31 +59,31 @@ main.container {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(4px);
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(5px);
   justify-content: center;
   align-items: center;
   z-index: 2000;
-  padding: 15px;
+  padding: 20px;
 }
 
 .modal-content {
   background: white;
   width: 100%;
-  max-width: 480px;
+  max-width: 580px;
   max-height: 90vh;
   overflow-y: auto;
   border-radius: var(--radius-lg);
-  padding: 30px;
+  padding: 35px;
   box-shadow: var(--shadow-lg);
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 20px;
 }
 
 .modal-content h2 {
   color: var(--primary-color);
-  font-size: 1.4rem;
+  font-size: 1.7rem;
   font-weight: 700;
   margin-bottom: 5px;
 }
@@ -91,11 +91,11 @@ main.container {
 .modal-field {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
 }
 
 .modal-field label {
-  font-size: 0.88rem;
+  font-size: 1.05rem;
   font-weight: 600;
   color: var(--text-dark);
 }
@@ -104,10 +104,10 @@ main.container {
 .modal-content select,
 .modal-content textarea {
   width: 100%;
-  padding: 12px 14px;
+  padding: 14px 18px;
   border-radius: var(--radius-md);
   border: 1.5px solid var(--border-color);
-  font-size: 0.95rem;
+  font-size: 1.08rem;
   background: #fafafa;
   transition: var(--transition);
 }
@@ -118,25 +118,25 @@ main.container {
   outline: none;
   border-color: var(--secondary-color);
   background: white;
-  box-shadow: 0 0 0 3px rgba(21, 101, 192, 0.12);
+  box-shadow: 0 0 0 4px rgba(21, 101, 192, 0.15);
 }
 
 .modal-content textarea {
-  min-height: 90px;
+  min-height: 110px;
   resize: vertical;
 }
 
 .botoes {
   display: flex;
   justify-content: flex-end;
-  gap: 12px;
-  margin-top: 10px;
+  gap: 14px;
+  margin-top: 15px;
 }
 
 .botoes button {
-  padding: 10px 20px;
+  padding: 14px 26px;
   border-radius: var(--radius-md);
-  font-size: 0.95rem;
+  font-size: 1.08rem;
   font-weight: 600;
   cursor: pointer;
   border: none;
@@ -144,12 +144,12 @@ main.container {
 }
 
 #cancelar {
-  background: #e0e0e0;
-  color: #444;
+  background: #e4e8ef;
+  color: #333;
 }
 
 #cancelar:hover {
-  background: #d0d0d0;
+  background: #d4dce8;
 }
 
 #salvar {
@@ -168,12 +168,18 @@ main.container {
     align-items: flex-start;
   }
 
+  .page-title {
+    font-size: 1.7rem;
+  }
+
   #btnNovoPaciente {
     width: 100%;
     justify-content: center;
+    padding: 14px 20px;
+    font-size: 1.05rem;
   }
 
   .modal-content {
-    padding: 20px;
+    padding: 24px;
   }
 }

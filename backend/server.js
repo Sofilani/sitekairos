@@ -5,6 +5,7 @@ const db = require("./database/database");
 const usuarioRoutes = require("./routes/usuarioRoutes");
 const estatisticasRoutes = require("./routes/estatisticasRoutes");
 const pacienteRoutes = require("./routes/pacienteRoutes");
+const amostraRoutes = require("./routes/amostraRoutes");
 
 const app = express();
 
@@ -15,6 +16,7 @@ app.use(express.static(path.join(__dirname, "../frontend")));
 app.use(usuarioRoutes);
 app.use(estatisticasRoutes);
 app.use(pacienteRoutes);
+app.use(amostraRoutes);
 
 app.get("/", (req, res) => {
     res.send("Servidor KAIRÓS funcionando! ");

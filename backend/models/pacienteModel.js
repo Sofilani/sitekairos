@@ -60,10 +60,80 @@ function listarPacientes(){
     });
 
 }
+// Excluir paciente
+function excluirPaciente(id) {
+
+    return new Promise((resolve, reject) => {
+
+        db.run(
+
+            "DELETE FROM pacientes WHERE id = ?",
+
+            [id],
+
+            function (err) {
+
+                if (err) {
+
+                    reject(err);
+
+                } else {
+
+                    resolve();
+
+                }
+
+            }
+
+        );
+
+    });
+
+}
+
+// Atualizar paciente
+function atualizarPaciente(id, paciente) {
+
+    return new Promise((resolve, reject) => {
+
+        db.run(
+
+            `UPDATE pacientes
+             SET nome = ?,
+                 data_nascimento = ?,
+                 sexo = ?,
+                 observacoes = ?
+             WHERE id = ?`,
+
+            [
+                paciente.nome,
+                paciente.data_nascimento,
+                paciente.sexo,
+                paciente.observacoes,
+                id
+            ],
+
+            function (err) {
+
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve();
+                }
+
+            }
+
+        );
+
+    });
+
+}
 
 module.exports = {
 
     criarPaciente,
-    listarPacientes
+    listarPacientes,
+    excluirPaciente,
+    atualizarPaciente
 
 };

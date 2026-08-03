@@ -1,5 +1,5 @@
 /* ==========================================================================
-   KAIRÓS - GLOBAL & RESPONSIVE DESIGN SYSTEM
+   KAIRÓS - GLOBAL & RESPONSIVE DESIGN SYSTEM (LARGE SCALE)
    ========================================================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
@@ -12,14 +12,14 @@
   --background-light: #f4f8fc;
   --card-bg: #ffffff;
   --text-dark: #1d3557;
-  --text-muted: #666666;
-  --border-color: #e0e0e0;
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
-  --shadow-md: 0 5px 18px rgba(0, 0, 0, 0.08);
-  --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.12);
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 16px;
+  --text-muted: #555555;
+  --border-color: #d1d9e6;
+  --shadow-sm: 0 3px 10px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 6px 20px rgba(0, 0, 0, 0.10);
+  --shadow-lg: 0 12px 35px rgba(0, 0, 0, 0.14);
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 18px;
   --transition: all 0.3s ease;
 }
 
@@ -36,7 +36,8 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  line-height: 1.5;
+  line-height: 1.6;
+  font-size: 1.1rem;
 }
 
 /* Image scaling */
@@ -47,17 +48,17 @@ img, video {
 
 /* Main Container */
 .container {
-  width: 94%;
-  max-width: 1500px;
+  width: 96%;
+  max-width: 1750px;
   margin: 0 auto;
-  padding: 25px 0;
+  padding: 30px 0;
 }
 
 /* Header & Navigation Bar */
 .navbar {
   background-color: var(--primary-color);
   color: white;
-  padding: 15px 5%;
+  padding: 18px 4%;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -70,18 +71,18 @@ img, video {
 .nav-brand {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
   text-decoration: none;
   color: white;
 }
 
 .nav-brand img {
-  width: 45px;
+  width: 52px;
   height: auto;
 }
 
 .nav-brand h2 {
-  font-size: 1.5rem;
+  font-size: 1.75rem;
   font-weight: 700;
   letter-spacing: 1px;
 }
@@ -89,34 +90,34 @@ img, video {
 .nav-menu {
   display: flex;
   align-items: center;
-  gap: 25px;
+  gap: 30px;
   list-style: none;
 }
 
 .nav-link {
-  color: rgba(255, 255, 255, 0.85);
+  color: rgba(255, 255, 255, 0.9);
   text-decoration: none;
-  font-weight: 500;
-  font-size: 0.95rem;
+  font-weight: 600;
+  font-size: 1.1rem;
   transition: var(--transition);
-  padding: 6px 12px;
+  padding: 8px 16px;
   border-radius: var(--radius-sm);
 }
 
 .nav-link:hover, .nav-link.active {
   color: white;
-  background-color: rgba(255, 255, 255, 0.15);
+  background-color: rgba(255, 255, 255, 0.2);
 }
 
 .user-badge {
   display: flex;
   align-items: center;
-  gap: 8px;
-  background: rgba(255, 255, 255, 0.15);
-  padding: 6px 14px;
-  border-radius: 20px;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 8px 18px;
+  border-radius: 30px;
   font-weight: 600;
-  font-size: 0.9rem;
+  font-size: 1.05rem;
 }
 
 /* Hamburger Menu Button */
@@ -124,8 +125,8 @@ img, video {
   display: none;
   flex-direction: column;
   justify-content: space-between;
-  width: 28px;
-  height: 20px;
+  width: 32px;
+  height: 24px;
   background: transparent;
   border: none;
   cursor: pointer;
@@ -135,14 +136,14 @@ img, video {
 
 .hamburger span {
   width: 100%;
-  height: 3px;
+  height: 3.5px;
   background-color: white;
   border-radius: 2px;
   transition: var(--transition);
 }
 
 .hamburger.active span:nth-child(1) {
-  transform: translateY(8.5px) rotate(45deg);
+  transform: translateY(10px) rotate(45deg);
 }
 
 .hamburger.active span:nth-child(2) {
@@ -150,7 +151,7 @@ img, video {
 }
 
 .hamburger.active span:nth-child(3) {
-  transform: translateY(-8.5px) rotate(-45deg);
+  transform: translateY(-10px) rotate(-45deg);
 }
 
 /* Responsive Table Wrapper */
@@ -160,8 +161,9 @@ img, video {
   background: var(--card-bg);
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-md);
+  border: 1px solid var(--border-color);
   -webkit-overflow-scrolling: touch;
-  margin-top: 20px;
+  margin-top: 25px;
 }
 
 table {
@@ -173,21 +175,22 @@ table {
 th {
   background-color: var(--secondary-color);
   color: white;
-  padding: 16px 20px;
+  padding: 20px 24px;
   text-align: left;
-  font-size: 0.95rem;
+  font-size: 1.15rem;
   font-weight: 600;
+  letter-spacing: 0.5px;
 }
 
 td {
-  padding: 16px 20px;
+  padding: 20px 24px;
   border-bottom: 1px solid var(--border-color);
-  font-size: 0.9rem;
-  color: #444;
+  font-size: 1.08rem;
+  color: #333333;
 }
 
 tbody tr:hover {
-  background-color: rgba(21, 101, 192, 0.03);
+  background-color: rgba(21, 101, 192, 0.05);
 }
 
 /* Base Modal Styling */
@@ -198,26 +201,26 @@ tbody tr:hover {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(4px);
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(5px);
   justify-content: center;
   align-items: center;
   z-index: 2000;
-  padding: 15px;
+  padding: 20px;
 }
 
 .modal-container {
   background: white;
-  width: 90%;
-  max-width: 500px;
+  width: 94%;
+  max-width: 580px;
   max-height: 90vh;
   overflow-y: auto;
   border-radius: var(--radius-lg);
-  padding: 30px;
+  padding: 35px;
   box-shadow: var(--shadow-lg);
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 20px;
   animation: modalFadeIn 0.25s ease-out;
 }
 
@@ -233,7 +236,7 @@ tbody tr:hover {
 }
 
 /* MEDIA QUERIES FOR RESPONSIVENESS */
-@media (max-width: 868px) {
+@media (max-width: 900px) {
   .hamburger {
     display: flex;
   }
@@ -242,14 +245,14 @@ tbody tr:hover {
     position: fixed;
     top: 0;
     right: -100%;
-    width: 260px;
+    width: 280px;
     height: 100vh;
     background-color: var(--primary-color);
     flex-direction: column;
     align-items: flex-start;
-    padding: 80px 25px 30px;
-    gap: 20px;
-    box-shadow: -5px 0 15px rgba(0,0,0,0.2);
+    padding: 90px 30px 30px;
+    gap: 22px;
+    box-shadow: -5px 0 20px rgba(0,0,0,0.25);
     transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
@@ -259,30 +262,39 @@ tbody tr:hover {
 
   .nav-link {
     width: 100%;
-    font-size: 1.1rem;
-    padding: 10px 14px;
+    font-size: 1.25rem;
+    padding: 12px 16px;
   }
 }
 
 @media (max-width: 480px) {
+  body {
+    font-size: 1rem;
+  }
+
   .navbar {
-    padding: 12px 15px;
+    padding: 14px 18px;
   }
 
   .nav-brand h2 {
-    font-size: 1.25rem;
+    font-size: 1.4rem;
   }
 
   .nav-brand img {
-    width: 36px;
+    width: 40px;
   }
 
   .container {
-    width: 94%;
-    padding: 15px 0;
+    width: 95%;
+    padding: 18px 0;
+  }
+
+  th, td {
+    padding: 15px 18px;
+    font-size: 1rem;
   }
 
   .modal-container {
-    padding: 20px;
+    padding: 24px;
   }
 }
