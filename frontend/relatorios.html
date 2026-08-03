@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KAIRÓS - Relatórios</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/relatorios.css">
+</head>
+
+<body>
+
+  <header class="navbar">
+    <a href="dashboard.html" class="nav-brand">
+      <img src="assets/logo.png" alt="KAIRÓS">
+      <h2>KAIRÓS</h2>
+    </a>
+
+    <button class="hamburger" id="hamburgerBtn" aria-label="Abrir Menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <ul class="nav-menu" id="navMenu">
+      <li><a href="dashboard.html" class="nav-link">Dashboard</a></li>
+      <li><a href="pacientes.html" class="nav-link">Pacientes</a></li>
+      <li><a href="amostras.html" class="nav-link">Amostras</a></li>
+      <li><a href="relatorios.html" class="nav-link active">Relatórios</a></li>
+      <li>
+        <div class="user-badge">
+          👤 <span>Sofia</span>
+        </div>
+      </li>
+    </ul>
+  </header>
+
+  <main class="container">
+    <div class="page-header">
+      <h1 class="page-title">📄 Relatórios Laboratoriais</h1>
+      <button class="btn-primary" id="btnNovoRelatorio">
+        ➕ Novo Relatório
+      </button>
+    </div>
+
+    <div class="table-responsive">
+      <table>
+        <thead>
+          <tr>
+            <th>ID Relatório</th>
+            <th>Paciente</th>
+            <th>Exame</th>
+            <th>Data de Emissão</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="listaRelatorios">
+          <tr>
+            <td colspan="5" style="text-align: center; color: #888; padding: 25px;">
+              Nenhum relatório gerado até o momento.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const hamburger = document.getElementById("hamburgerBtn");
+      const navMenu = document.getElementById("navMenu");
+
+      if (hamburger && navMenu) {
+        hamburger.addEventListener("click", () => {
+          hamburger.classList.toggle("active");
+          navMenu.classList.toggle("active");
+        });
+
+        document.addEventListener("click", (e) => {
+          if (!hamburger.contains(e.target) && !navMenu.contains(e.target)) {
+            hamburger.classList.remove("active");
+            navMenu.classList.remove("active");
+          }
+        });
+      }
+    });
+  </script>
+</body>
+
+</html>

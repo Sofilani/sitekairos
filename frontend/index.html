@@ -2,93 +2,50 @@
 <html lang="pt-BR">
 
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KAIRÓS - Login</title>
+  
   <link rel="preconnect" href="https://fonts.googleapis.com">
-
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-    <meta charset="UTF-8">
-
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
-
-    <title>Sistema Laboratorial</title>
-
-    <link rel="stylesheet" href="css/login.css">
-
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/login.css">
 </head>
 
 <body>
 
-    <main class="container">
+  <main class="container">
+    <section class="login-box">
+      <img src="assets/logo.png" alt="Logo KAIRÓS" class="logo">
+      <h1>KAIRÓS</h1>
+      <p class="descricao">Sistema de Relatórios Laboratoriais</p>
 
-        <section class="login-box">
+      <form id="formLogin">
+        <div class="campo">
+          <label for="email">Email</label>
+          <input type="email" id="email" placeholder="Digite seu email" required autocomplete="email">
+        </div>
 
-            <img src="assets/logo.png"
-                 alt="Logo do Sistema"
-                 class="logo">
+        <div class="campo">
+          <label for="senha">Senha</label>
+          <input type="password" id="senha" placeholder="Digite sua senha" required autocomplete="current-password">
+        </div>
 
-            <h1>KAIRÓS</h1>
+        <button type="submit">Entrar</button>
+      </form>
 
-            <p class="descricao">
-                Sistema de Relatórios Laboratoriais
-            </p>
+      <a href="#" class="senha">Esqueceu sua senha?</a>
 
-            <form id="formLogin">
+      <p class="criar-conta-text">
+        Não possui conta?
+        <a href="cadastro.html">Criar conta</a>
+      </p>
+    </section>
+  </main>
 
-                <div class="campo">
-
-                    <label>Email</label>
-
-                    <input
-                        type="email"
-                        id="email"
-                        placeholder="Digite seu email"
-                        required>
-
-                </div>
-
-                <div class="campo">
-
-                    <label>Senha</label>
-
-                    <input
-                        type="password"
-                        id="senha"
-                        placeholder="Digite sua senha"
-                        required>
-
-                </div>
-
-                <button type="submit">
-                    Entrar
-                </button>
-
-            </form>
-
-            <a href="#" class="senha">
-                Esqueceu sua senha?
-            </a>
-
-            <p>
-
-                Não possui conta?
-
-                <a href="cadastro.html">
-
-                    Criar conta
-
-                </a>
-
-            </p>
-
-        </section>
-
-    </main>
-
-    <script src="js/login.js"></script>
-
+  <script src="js/login.js"></script>
 </body>
 
 </html>

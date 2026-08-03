@@ -1,25 +1,43 @@
-async function carregarDashboard(){
+// Mobile Navbar Toggle
+document.addEventListener("DOMContentLoaded", () => {
+  const hamburger = document.getElementById("hamburgerBtn");
+  const navMenu = document.getElementById("navMenu");
 
-    try{
+  if (hamburger && navMenu) {
+    hamburger.addEventListener("click", () => {
+      hamburger.classList.toggle("active");
+      navMenu.classList.toggle("active");
+    });
 
-        const resposta = await fetch("http://localhost:3000/dashboard");
+    // Close menu when clicking outside
+    document.addEventListener("click", (e) => {
+      if (!hamburger.contains(e.target) && !navMenu.contains(e.target)) {
+        hamburger.classList.remove("active");
+        navMenu.classList.remove("active");
+      }
+    });
+  }
+});
 
-        const dados = await resposta.json();
+async function carregarDashboard() {
+  try {
+    const resposta = await fetch("http://localhost:3000/dashboard");
+    if (!resposta.ok) return;
 
-        document.getElementById("totalPacientes").textContent = dados.pacientes;
+    const dados = await resposta.json();
 
-        document.getElementById("totalAmostras").textContent = dados.amostras;
+    const elPacientes = document.getElementById("totalPacientes");
+    const elAmostras = document.getElementById("totalAmostras");
+    const elRelatorios = document.getElementById("totalRelatorios");
+    const elIA = document.getElementById("totalIA");
 
-        document.getElementById("totalRelatorios").textContent = dados.relatorios;
-
-        document.getElementById("totalIA").textContent = dados.ia;
-
-    }catch(erro){
-
-        console.log(erro);
-
-    }
-
+    if (elPacientes) elPacientes.textContent = dados.pacientes ?? 0;
+    if (elAmostras) elAmostras.textContent = dados.amostras ?? 0;
+    if (elRelatorios) elRelatorios.textContent = dados.relatorios ?? 0;
+    if (elIA) elIA.textContent = dados.ia ?? 0;
+  } catch (erro) {
+    console.log("Erro ao carregar estatísticas do dashboard:", erro);
+  }
 }
 
 carregarDashboard();

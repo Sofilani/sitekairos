@@ -3,24 +3,21 @@ const pacienteModel = require("../models/pacienteModel");
 // Cadastrar paciente
 async function cadastrar(req, res) {
 
+    console.log("Body recebido:", req.body);
+
     try {
 
         const id = await pacienteModel.criarPaciente(req.body);
 
         res.status(201).json({
-
             mensagem: "Paciente cadastrado com sucesso!",
-
             id
-
         });
 
     } catch (erro) {
 
         res.status(500).json({
-
             erro: erro.message
-
         });
 
     }

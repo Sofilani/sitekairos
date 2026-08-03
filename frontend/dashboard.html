@@ -2,103 +2,87 @@
 <html lang="pt-BR">
 
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KAIRÓS - Dashboard</title>
 
-    <meta charset="UTF-8">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>KAIRÓS</title>
-
-    <link rel="stylesheet" href="css/dashboard.css">
-
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/dashboard.css">
 </head>
 
 <body>
 
-<header>
+  <header class="navbar">
+    <a href="dashboard.html" class="nav-brand">
+      <img src="assets/logo.png" alt="KAIRÓS">
+      <h2>KAIRÓS</h2>
+    </a>
 
-    <div class="logo">
+    <button class="hamburger" id="hamburgerBtn" aria-label="Abrir Menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
 
-        <img src="assets/logo.png" alt="KAIRÓS">
+    <ul class="nav-menu" id="navMenu">
+      <li><a href="dashboard.html" class="nav-link active">Dashboard</a></li>
+      <li><a href="pacientes.html" class="nav-link">Pacientes</a></li>
+      <li><a href="amostras.html" class="nav-link">Amostras</a></li>
+      <li><a href="relatorios.html" class="nav-link">Relatórios</a></li>
+      <li>
+        <div class="user-badge">
+          👤 <span>Sofia</span>
+        </div>
+      </li>
+    </ul>
+  </header>
 
-        <h2>KAIRÓS</h2>
-
-    </div>
-
-    <div class="usuario">
-
-        👤 Sofia
-
-    </div>
-
-</header>
-
-<main>
-
+  <main class="container">
     <section class="boas-vindas">
-
-        <h1>Bem-vinda ao KAIRÓS!</h1>
-
-        <p>Sistema de gerenciamento laboratorial.</p>
-
+      <h1>Bem-vinda ao KAIRÓS!</h1>
+      <p>Sistema de gerenciamento laboratorial e relatórios.</p>
     </section>
 
     <section class="cards">
+      <div class="card">
+        <h3>👥 Pacientes</h3>
+        <span id="totalPacientes">0</span>
+      </div>
 
-        <div class="card">
+      <div class="card">
+        <h3>🧫 Amostras</h3>
+        <span id="totalAmostras">0</span>
+      </div>
 
-            <h3>👥 Pacientes</h3>
-
-            <span id="totalPacientes">0</span>
-
-        </div>
-
-        <div class="card">
-
-            <h3>🧫 Amostras</h3>
-
-            <span id="totalAmostras">0</span>
-
-        </div>
-
-        <div class="card">
-
-            <h3>📄 Relatórios</h3>
-
-            <span id="totalRelatorios">0</span>
-
-        </div>
-
+      <div class="card">
+        <h3>📄 Relatórios</h3>
+        <span id="totalRelatorios">0</span>
+      </div>
     </section>
 
     <section class="acoes">
-
-        <h2>Acesso rápido</h2>
-
+      <h2>Acesso rápido</h2>
+      <div class="acoes-grid">
         <button onclick="location.href='pacientes.html'">
-
-            ➕ Novo Paciente
-
+          ➕ Novo Paciente
         </button>
 
         <button onclick="location.href='amostras.html'">
-
-            ➕ Nova Amostra
-
+          ➕ Nova Amostra
         </button>
 
         <button onclick="location.href='relatorios.html'">
-
-            ➕ Novo Relatório
-
+          ➕ Novo Relatório
         </button>
-
+      </div>
     </section>
+  </main>
 
-</main>
-
-<script src="js/dashboard.js"></script>
-
+  <script src="js/dashboard.js"></script>
 </body>
 
 </html>
