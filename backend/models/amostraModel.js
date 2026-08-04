@@ -1,6 +1,6 @@
 const db = require("../database/database");
 
-// Cadastrar amostra
+// Criar amostra
 function criarAmostra(amostra) {
 
     return new Promise((resolve, reject) => {
@@ -8,23 +8,22 @@ function criarAmostra(amostra) {
         db.run(
 
             `INSERT INTO amostras
-            (paciente_id, codigo, tipo, status, data_coleta, observacoes)
-            VALUES (?, ?, ?, ?, ?, ?)`,
+            (paciente_id, tipo, status, data_coleta, observacoes)
+            VALUES (?, ?, ?, ?, ?)`,
 
             [
                 amostra.paciente_id,
-                amostra.codigo,
                 amostra.tipo,
                 amostra.status,
                 amostra.data_coleta,
                 amostra.observacoes
             ],
 
-            function(err){
+            function (err) {
 
-                if(err){
+                if (err) {
                     reject(err);
-                }else{
+                } else {
                     resolve(this.lastID);
                 }
 
@@ -37,37 +36,34 @@ function criarAmostra(amostra) {
 }
 
 // Listar amostras
-function listarAmostras(){
+function listarAmostras() {
 
-    return new Promise((resolve,reject)=>{
+    return new Promise((resolve, reject) => {
 
         db.all(
 
-            `
-            SELECT
-                amostras.*,
-                pacientes.nome AS paciente
+            `SELECT
+                amostras.id,
+                pacientes.nome AS paciente,
+                amostras.tipo,
+                amostras.status,
+                amostras.data_coleta
 
             FROM amostras
 
-            JOIN pacientes
+            INNER JOIN pacientes
             ON pacientes.id = amostras.paciente_id
 
-            ORDER BY amostras.id DESC
-            `,
+            ORDER BY amostras.id DESC`,
 
             [],
 
-            (err,rows)=>{
+            (err, rows) => {
 
-                if(err){
-
+                if (err) {
                     reject(err);
-
-                }else{
-
+                } else {
                     resolve(rows);
-
                 }
 
             }

@@ -50,47 +50,85 @@
     </div>
 
     <div class="table-responsive">
-      <table>
-        <thead>
-          <tr>
-            <th>Código</th>
-            <th>Paciente</th>
-            <th>Tipo de Amostra</th>
-            <th>Data de Coleta</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody id="listaAmostras">
-          <tr>
-            <td colspan="5" style="text-align: center; color: #888; padding: 25px;">
-              Nenhuma amostra registrada até o momento.
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+  <table>
+
+    <thead>
+      <tr>
+        <th>Paciente</th>
+        <th>Tipo de Amostra</th>
+        <th>Data de Coleta</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+
+    <tbody id="listaAmostras">
+
+      <tr>
+        <td colspan="5" style="text-align: center; color: #888; padding: 25px;">
+          Nenhuma amostra registrada até o momento.
+        </td>
+      </tr>
+
+    </tbody>
+
+  </table>
+</div>
+
   </main>
 
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const hamburger = document.getElementById("hamburgerBtn");
-      const navMenu = document.getElementById("navMenu");
+  <div id="modal" class="modal">
 
-      if (hamburger && navMenu) {
-        hamburger.addEventListener("click", () => {
-          hamburger.classList.toggle("active");
-          navMenu.classList.toggle("active");
-        });
+  <div class="modal-content">
 
-        document.addEventListener("click", (e) => {
-          if (!hamburger.contains(e.target) && !navMenu.contains(e.target)) {
-            hamburger.classList.remove("active");
-            navMenu.classList.remove("active");
-          }
-        });
-      }
-    });
-  </script>
+    <h2>Nova Amostra</h2>
+
+    <select id="paciente_id">
+
+    </select>
+
+    
+
+    <select id="tipo">
+
+      <option>Sangue</option>
+      <option>Urina</option>
+      <option>Saliva</option>
+      <option>Tecido</option>
+
+    </select>
+
+    <select id="status">
+
+      <option>Pendente</option>
+      <option>Em análise</option>
+      <option>Concluída</option>
+
+    </select>
+
+    <input
+      type="date"
+      id="data_coleta">
+
+    <textarea
+      id="observacoes"
+      placeholder="Observações"></textarea>
+
+    <div class="modal-buttons">
+
+      <button id="salvar" class="btn-primary">
+        Salvar
+      </button>
+
+      <button id="cancelar" class="btn-secondary">
+        Cancelar
+      </button>
+    </div> <!-- fecha modal-content -->
+
+</div> <!-- fecha modal -->
+
+<script src="js/amostras.js"></script>
+
 </body>
-
 </html>
+
+  

@@ -1,25 +1,23 @@
 const amostraModel = require("../models/amostraModel");
 
-// Cadastrar amostra
-async function cadastrar(req, res) {
+async function cadastrar(req,res){
 
-    try {
+    try{
 
         const id = await amostraModel.criarAmostra(req.body);
 
         res.status(201).json({
 
-            mensagem: "Amostra cadastrada com sucesso!",
-
+            mensagem:"Amostra cadastrada com sucesso!",
             id
 
         });
 
-    } catch (erro) {
+    }catch(err){
 
         res.status(500).json({
 
-            erro: erro.message
+            erro:err.message
 
         });
 
@@ -27,20 +25,19 @@ async function cadastrar(req, res) {
 
 }
 
-// Listar amostras
-async function listar(req, res) {
+async function listar(req,res){
 
-    try {
+    try{
 
         const amostras = await amostraModel.listarAmostras();
 
         res.json(amostras);
 
-    } catch (erro) {
+    }catch(err){
 
         res.status(500).json({
 
-            erro: erro.message
+            erro:err.message
 
         });
 
