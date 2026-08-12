@@ -93,33 +93,45 @@ async function carregarAmostras() {
 
     tbody.innerHTML = "";
 
-    if (amostras.length === 0) {
+   if (amostras.length === 0) {
 
-        tbody.innerHTML = `
-            <tr>
-                <td colspan="4" style="text-align:center;">
-                    Nenhuma amostra cadastrada.
-                </td>
-            </tr>
-        `;
+    tbody.innerHTML = `
+        <tr>
+            <td colspan="5" style="text-align:center;">
+                Nenhuma amostra cadastrada.
+            </td>
+        </tr>
+    `;
 
-        return;
+    return;
 
-    }
+}
 
     amostras.forEach((amostra) => {
 
-        tbody.innerHTML += `
-            <tr>
-                <td>${amostra.paciente}</td>
-                <td>${amostra.tipo}</td>
-                <td>${amostra.data_coleta || "-"}</td>
-                <td>${amostra.status}</td>
-            </tr>
-        `;
+    tbody.innerHTML += `
+        <tr>
 
-    });
+            <td>${amostra.paciente}</td>
 
+            <td>${amostra.tipo}</td>
+
+            <td>${amostra.data_coleta || "-"}</td>
+
+            <td>${amostra.status}</td>
+
+            <td>
+                <button
+                    class="btn-primary"
+                    onclick="gerarRelatorio(${amostra.id})">
+                    Gerar
+                </button>
+            </td>
+
+        </tr>
+    `;
+
+});
 }
 
 // Salvar amostra
@@ -165,3 +177,17 @@ btnSalvar.onclick = async () => {
 };
 
 carregarAmostras();
+async function gerarRelatorio(idAmostra) {
+
+    const resposta = await fetch(
+        `http://localhost:3000/relatorios/${idAmostra}`,
+        {
+            method: "POST"
+        }
+    );
+
+    const dados = await resposta.json();
+
+    alert(dados.mensagem);
+
+}

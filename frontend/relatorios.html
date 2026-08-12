@@ -44,20 +44,21 @@
   <main class="container">
     <div class="page-header">
       <h1 class="page-title">📄 Relatórios Laboratoriais</h1>
-      <button class="btn-primary" id="btnNovoRelatorio">
-        ➕ Novo Relatório
-      </button>
     </div>
 
     <div class="table-responsive">
       <table>
         <thead>
           <tr>
-            <th>ID Relatório</th>
-            <th>Paciente</th>
-            <th>Exame</th>
-            <th>Data de Emissão</th>
-            <th>Status</th>
+            <thead>
+<tr>
+    <th>Paciente</th>
+    <th>Tipo da Amostra</th>
+    <th>Resultado</th>
+    <th>Status</th>
+    <th>Ação</th>
+</tr>
+</thead>
           </tr>
         </thead>
         <tbody id="listaRelatorios">
@@ -91,6 +92,40 @@
       }
     });
   </script>
+  <div id="modal" class="modal">
+
+    <div class="modal-content">
+
+        <h2>Editar Relatório</h2>
+
+        <select id="resultado">
+
+            <option>Negativo</option>
+            <option>Positivo</option>
+            <option>Inconclusivo</option>
+
+        </select>
+
+        <textarea
+            id="laudo"
+            placeholder="Digite o laudo"></textarea>
+
+        <div class="modal-buttons">
+
+            <button id="salvar" class="btn-primary">
+                Salvar
+            </button>
+
+            <button id="cancelar" class="btn-secondary">
+                Cancelar
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+<script src="js/relatorios.js"></script>
 </body>
 
 </html>
