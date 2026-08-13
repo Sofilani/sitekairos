@@ -3,6 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const db = require("./database/database");
 const usuarioRoutes = require("./routes/usuarioRoutes");
+const imagemAmostraRoutes = require("./routes/imagemAmostraRoutes");
 const estatisticasRoutes = require("./routes/estatisticasRoutes");
 const pacienteRoutes = require("./routes/pacienteRoutes");
 const amostraRoutes = require("./routes/amostraRoutes");
@@ -19,6 +20,7 @@ app.use(estatisticasRoutes);
 app.use(pacienteRoutes);
 app.use(amostraRoutes);
 app.use(relatorioRoutes);
+app.use(imagemAmostraRoutes);
 
 app.get("/", (req, res) => {
     res.send("Servidor KAIRÓS funcionando! ");

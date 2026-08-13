@@ -218,102 +218,153 @@ async function gerarPDF(req, res) {
             doc.pipe(res);
 
 
+
             // =========================
             // CABEÇALHO
             // =========================
 
-            doc
-                .fontSize(22)
-                .text("KAIRÓS", {
-                    align: "center"
-                });
 
-            doc
-                .moveDown();
+doc
+    .fontSize(24)
+    .font("Helvetica-Bold")
+    .text("KAIRÓS", {
+        align: "center"
+    });
 
-            doc
-                .fontSize(16)
-                .text("Relatório Laboratorial", {
-                    align: "center"
-                });
+doc
+    .fontSize(15)
+    .font("Helvetica")
+    .text("RELATÓRIO LABORATORIAL", {
+        align: "center"
+    });
 
-            doc.moveDown(2);
+doc.moveDown();
 
+doc
+    .moveTo(50, doc.y)
+    .lineTo(545, doc.y)
+    .stroke();
 
-            // =========================
-            // DADOS
-            // =========================
-
-            doc.fontSize(12);
-
-            doc.text(`Relatório: ${relatorio.id}`);
-
-            doc.text(
-                `Paciente: ${relatorio.paciente}`
-            );
-
-            doc.text(
-                `Tipo de amostra: ${relatorio.tipo}`
-            );
-
-            doc.text(
-                `Data da coleta: ${relatorio.data_coleta || "-"}`
-            );
-
-            doc.text(
-                `Data de emissão: ${relatorio.data_emissao || "-"}`
-            );
-
-            doc.text(
-                `Status: ${relatorio.status}`
-            );
-
-            doc.moveDown(2);
+doc.moveDown(2);
 
 
-            // =========================
-            // RESULTADO
-            // =========================
+// =========================
+// IDENTIFICAÇÃO
+// =========================
 
-            doc
-                .fontSize(14)
-                .text("Resultado");
+doc
+    .fontSize(14)
+    .font("Helvetica-Bold")
+    .text("IDENTIFICAÇÃO");
 
-            doc.moveDown(0.5);
+doc.moveDown(0.8);
 
-            doc
-                .fontSize(12)
-                .text(
-                    relatorio.resultado || "Não informado."
-                );
+doc
+    .fontSize(11)
+    .font("Helvetica")
+    .text(`Relatório: ${relatorio.id}`);
 
-            doc.moveDown(2);
+doc.text(
+    `Paciente: ${relatorio.paciente}`
+);
+
+doc.text(
+    `Tipo de amostra: ${relatorio.tipo}`
+);
+
+doc.text(
+    `Data da coleta: ${relatorio.data_coleta || "-"}`
+);
+
+doc.text(
+    `Data de emissão: ${relatorio.data_emissao || "-"}`
+);
+
+doc.text(
+    `Status: ${relatorio.status}`
+);
+
+doc.moveDown(2);
 
 
-            // =========================
-            // LAUDO
-            // =========================
+// =========================
+// RESULTADO
+// =========================
 
-            doc
-                .fontSize(14)
-                .text("Laudo");
+doc
+    .fontSize(14)
+    .font("Helvetica-Bold")
+    .text("RESULTADO");
 
-            doc.moveDown(0.5);
+doc.moveDown(0.8);
 
-            doc
-                .fontSize(12)
-                .text(
-                    relatorio.laudo || "Não informado."
-                );
-
-
-            // Finaliza o PDF
-
-            doc.end();
-
+doc
+    .fontSize(11)
+    .font("Helvetica")
+    .text(
+        relatorio.resultado || "Não informado.",
+        {
+            width: 495,
+            align: "left"
         }
     );
 
+doc.moveDown(2);
+
+
+// =========================
+// LAUDO
+// =========================
+
+doc
+    .fontSize(14)
+    .font("Helvetica-Bold")
+    .text("LAUDO");
+
+doc.moveDown(0.8);
+
+doc
+    .fontSize(11)
+    .font("Helvetica")
+    .text(
+        relatorio.laudo || "Não informado.",
+        {
+            width: 495,
+            align: "left"
+        }
+    );
+
+doc.moveDown(3);
+
+
+// =========================
+// ASSINATURA
+// =========================
+
+doc
+    .moveTo(190, doc.y)
+    .lineTo(405, doc.y)
+    .stroke();
+
+doc.moveDown(0.5);
+
+doc
+    .fontSize(10)
+    .text(
+        "Responsável técnico",
+        {
+            align: "center"
+        }
+    );
+
+
+// =========================
+// FINALIZAR PDF
+// =========================
+
+doc.end();
+        }
+    );
 }
 
 

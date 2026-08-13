@@ -82,6 +82,14 @@ function listarRelatorios(){
 
 }
 // Buscar um relatório específico
+// ===============================
+// BUSCAR UM RELATÓRIO ESPECÍFICO
+// ===============================
+
+// ===============================
+// BUSCAR UM RELATÓRIO ESPECÍFICO
+// ===============================
+
 function buscarRelatorio(id) {
 
     return new Promise((resolve, reject) => {
@@ -91,9 +99,13 @@ function buscarRelatorio(id) {
             `SELECT
 
                 relatorios.id,
+                relatorios.amostra_id,
+
                 pacientes.nome AS paciente,
+
                 amostras.tipo,
                 amostras.data_coleta,
+
                 relatorios.resultado,
                 relatorios.laudo,
                 relatorios.status,
@@ -117,11 +129,57 @@ function buscarRelatorio(id) {
 
                     reject(err);
 
-                } else {
-
-                    resolve(row);
+                    return;
 
                 }
+
+                if (!row) {
+
+                    resolve(null);
+
+                    return;
+
+                }
+
+                // ===============================
+                // BUSCAR IMAGENS DA AMOSTRA
+                // ===============================
+
+                db.all(
+
+                    `SELECT
+
+                        id,
+                        amostra_id,
+                        arquivo,
+                        camera,
+                        data_captura
+
+                    FROM imagens_amostras
+
+                    WHERE amostra_id = ?
+
+                    ORDER BY id DESC`,
+
+                    [row.amostra_id],
+
+                    (err, imagens) => {
+
+                        if (err) {
+
+                            reject(err);
+
+                            return;
+
+                        }
+
+                        row.imagens = imagens;
+
+                        resolve(row);
+
+                    }
+
+                );
 
             }
 

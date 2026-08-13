@@ -208,6 +208,58 @@ async function visualizarRelatorio(id) {
             "relatorioLaudo"
         ).value = relatorio.laudo || "";
 
+        
+        // ==================================
+// MOSTRAR IMAGENS DA AMOSTRA
+// ==================================
+
+const containerImagens =
+    document.getElementById("imagensRelatorio");
+
+containerImagens.innerHTML = "";
+
+if (
+    relatorio.imagens &&
+    relatorio.imagens.length > 0
+) {
+
+    relatorio.imagens.forEach((imagem) => {
+
+        const div = document.createElement("div");
+
+        div.className = "imagem-relatorio";
+
+        div.innerHTML = `
+
+            <img
+                src="${imagem.arquivo}"
+                alt="Imagem da amostra"
+            >
+
+            <div class="info-imagem">
+
+                <strong>
+                    Câmera:
+                </strong>
+
+                ${imagem.camera || "-"}
+
+            </div>
+
+        `;
+
+        containerImagens.appendChild(div);
+
+    });
+
+} else {
+
+    containerImagens.innerHTML = `
+        <p>Nenhuma imagem registrada.</p>
+    `;
+
+}
+
 
         // Abre o modal
 

@@ -192,3 +192,36 @@ main.container {
   justify-content: flex-end;
   margin-top: 20px;
 }
+/* ===============================
+   IMAGENS DO RELATÓRIO
+   =============================== */
+
+.imagens-relatorio {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 15px;
+    margin-top: 15px;
+    margin-bottom: 20px;
+}
+
+.imagem-relatorio {
+    background: #f5f7fa;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+}
+
+.imagem-relatorio img {
+    width: 100%;
+    height: 160px;
+    object-fit: contain;
+    border-radius: 6px;
+    background: #ffffff;
+    display: block;
+}
+
+.info-imagem {
+    margin-top: 8px;
+    font-size: 13px;
+    color: #555;
+}

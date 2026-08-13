@@ -73,6 +73,25 @@ CREATE TABLE IF NOT EXISTS amostras (
 
 )
 `);
+
+db.run(`
+CREATE TABLE IF NOT EXISTS imagens_amostras (
+
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+
+    amostra_id INTEGER NOT NULL,
+
+    arquivo TEXT NOT NULL,
+
+    camera TEXT,
+
+    data_captura DATETIME DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY(amostra_id)
+        REFERENCES amostras(id)
+
+)
+`);
 // Tabela de relatórios
 db.run(`
 CREATE TABLE IF NOT EXISTS relatorios (

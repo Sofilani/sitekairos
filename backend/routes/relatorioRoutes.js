@@ -14,9 +14,6 @@ router.get("/relatorios/:id", relatorioController.buscar);
 
 router.put("/relatorios/:id", relatorioController.atualizar);
 
-router.get(
-    "/relatorios/:id/pdf",
-    relatorioController.gerarPDF
-);
+router.get("/relatorios/:id/pdf", relatorioController.gerarPDF);
 
 module.exports = router;
