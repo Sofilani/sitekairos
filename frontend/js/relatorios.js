@@ -392,3 +392,31 @@ if (btnSalvarRelatorio) {
 // ===============================
 
 carregarRelatorios();
+
+// ===============================
+// GERAR PDF
+// ===============================
+
+const btnGerarPDF =
+    document.getElementById("gerarPDF");
+
+if (btnGerarPDF) {
+
+    btnGerarPDF.onclick = () => {
+
+        if (!relatorioAtual) {
+
+            alert("Nenhum relatório selecionado.");
+
+            return;
+
+        }
+
+        window.open(
+            `http://localhost:3000/relatorios/${relatorioAtual}/pdf`,
+            "_blank"
+        );
+
+    };
+
+}
