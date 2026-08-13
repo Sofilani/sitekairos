@@ -10,4 +10,8 @@ router.post("/relatorios/:id", relatorioController.gerar);
 
 router.get("/relatorios", relatorioController.listar);
 
+router.get("/relatorios/:id", relatorioController.buscar);
+
+router.put("/relatorios/:id", relatorioController.atualizar);
+
 module.exports = router;

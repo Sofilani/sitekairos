@@ -1,3 +1,5 @@
+const PDFDocument = require("pdfkit");
+const db = require("../database/database");
 const relatorioModel = require("../models/relatorioModel");
 
 async function cadastrar(req, res) {
@@ -83,12 +85,84 @@ async function listar(req, res) {
     }
 
 }
+async function buscar(req, res) {
+
+    try {
+
+        const id = req.params.id;
+
+        const relatorio = await relatorioModel.buscarRelatorio(id);
+
+        if (!relatorio) {
+
+            return res.status(404).json({
+                erro: "Relatório não encontrado."
+            });
+
+        }
+
+        res.json(relatorio);
+
+    } catch (err) {
+
+        res.status(500).json({
+            erro: err.message
+        });
+
+    }
+
+}
+async function atualizar(req, res) {
+
+    try {
+
+        const id = req.params.id;
+
+        const {
+            resultado,
+            laudo
+        } = req.body;
+
+        const alterados =
+            await relatorioModel.atualizarRelatorio(
+                id,
+                resultado,
+                laudo
+            );
+
+        if (alterados === 0) {
+
+            return res.status(404).json({
+                erro: "Relatório não encontrado."
+            });
+
+        }
+
+        res.json({
+
+            mensagem: "Relatório atualizado com sucesso!"
+
+        });
+
+    } catch (err) {
+
+        res.status(500).json({
+
+            erro: err.message
+
+        });
+
+    }
+
+}
 
 
 module.exports = {
 
     cadastrar,
     gerar,
-    listar
+    listar,
+    buscar,
+    atualizar
 
 };

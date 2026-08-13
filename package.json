@@ -7,9 +7,9 @@
     "doc": "docs"
   },
   "scripts": {
-  "dev": "nodemon backend/server.js",
-  "start": "node backend/server.js"
-},
+    "dev": "nodemon backend/server.js",
+    "start": "node backend/server.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Sofilani/sitekairos.git"
@@ -26,6 +26,7 @@
     "cors": "^2.8.6",
     "express": "^5.2.1",
     "multer": "^2.2.0",
+    "pdfkit": "^0.19.1",
     "sqlite3": "^6.0.1"
   },
   "devDependencies": {

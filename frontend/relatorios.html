@@ -48,19 +48,20 @@
 
     <div class="table-responsive">
       <table>
-        <thead>
-          <tr>
+        
             <thead>
 <tr>
+    
+    <th>ID Relatório</th>
     <th>Paciente</th>
-    <th>Tipo da Amostra</th>
-    <th>Resultado</th>
+    <th>Exame</th>
+    <th>Data de Emissão</th>
     <th>Status</th>
     <th>Ação</th>
+
 </tr>
 </thead>
-          </tr>
-        </thead>
+         
         <tbody id="listaRelatorios">
           <tr>
             <td colspan="5" style="text-align: center; color: #888; padding: 25px;">
@@ -71,6 +72,49 @@
       </table>
     </div>
   </main>
+  <div id="modalRelatorio" class="modal">
+
+    <div class="modal-content">
+
+        <h2> Relatório Laboratorial</h2>
+
+        <p><strong>Paciente:</strong> <span id="relatorioPaciente"></span></p>
+
+        <p><strong>Tipo de amostra:</strong> <span id="relatorioTipo"></span></p>
+
+        <p><strong>Data da coleta:</strong> <span id="relatorioDataColeta"></span></p>
+
+        <p><strong>Data de emissão:</strong> <span id="relatorioDataEmissao"></span></p>
+
+        <p><strong>Status:</strong> <span id="relatorioStatus"></span></p>
+
+        <hr>
+
+        <label><strong>Resultado</strong></label>
+
+        <textarea id="relatorioResultado"
+            placeholder="Resultado do exame..."></textarea>
+
+        <label><strong>Laudo</strong></label>
+
+        <textarea id="relatorioLaudo"
+            placeholder="Laudo do exame..."></textarea>
+
+        <div class="modal-buttons">
+             <button id="salvarRelatorio" class="btn-primary">
+                Salvar
+            </button>
+
+
+            <button id="fecharRelatorio" class="btn-secondary">
+                Fechar
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
 
   <script>
     document.addEventListener("DOMContentLoaded", () => {
@@ -92,39 +136,7 @@
       }
     });
   </script>
-  <div id="modal" class="modal">
-
-    <div class="modal-content">
-
-        <h2>Editar Relatório</h2>
-
-        <select id="resultado">
-
-            <option>Negativo</option>
-            <option>Positivo</option>
-            <option>Inconclusivo</option>
-
-        </select>
-
-        <textarea
-            id="laudo"
-            placeholder="Digite o laudo"></textarea>
-
-        <div class="modal-buttons">
-
-            <button id="salvar" class="btn-primary">
-                Salvar
-            </button>
-
-            <button id="cancelar" class="btn-secondary">
-                Cancelar
-            </button>
-
-        </div>
-
-    </div>
-
-</div>
+  
 <script src="js/relatorios.js"></script>
 </body>
 
