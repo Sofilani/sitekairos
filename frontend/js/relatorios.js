@@ -4,8 +4,11 @@
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    const hamburger = document.getElementById("hamburgerBtn");
-    const navMenu = document.getElementById("navMenu");
+    const hamburger =
+        document.getElementById("hamburgerBtn");
+
+    const navMenu =
+        document.getElementById("navMenu");
 
     if (hamburger && navMenu) {
 
@@ -36,11 +39,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 // ===============================
-// RELATÓRIO SELECIONADO
+// RELATÓRIO ATUAL
 // ===============================
-
-// Aqui vamos guardar o ID do relatório
-// que o usuário está visualizando/editando.
 
 let relatorioAtual = null;
 
@@ -51,52 +51,100 @@ let relatorioAtual = null;
 
 async function carregarRelatorios() {
 
-    const tbody = document.getElementById("listaRelatorios");
+    const tbody =
+        document.getElementById("listaRelatorios");
+
+    if (!tbody) {
+
+        console.error(
+            "Elemento #listaRelatorios não encontrado."
+        );
+
+        return;
+
+    }
 
     try {
 
-        const resposta = await fetch(
-            "http://localhost:3000/relatorios"
-        );
+        const resposta =
+            await fetch(
+                "http://localhost:3000/relatorios"
+            );
 
-        const relatorios = await resposta.json();
+        if (!resposta.ok) {
+
+            throw new Error(
+                "Erro ao buscar relatórios."
+            );
+
+        }
+
+        const relatorios =
+            await resposta.json();
 
         tbody.innerHTML = "";
 
-        if (relatorios.length === 0) {
+        if (
+            !relatorios ||
+            relatorios.length === 0
+        ) {
 
             tbody.innerHTML = `
                 <tr>
-                    <td colspan="6"
-                        style="text-align:center; padding:25px;">
-                        Nenhum relatório gerado até o momento.
+
+                    <td
+                        colspan="6"
+                        style="
+                            text-align:center;
+                            padding:25px;
+                            color:#888;
+                        "
+                    >
+
+                        Nenhum relatório gerado
+                        até o momento.
+
                     </td>
+
                 </tr>
             `;
 
             return;
+
         }
 
         relatorios.forEach((relatorio) => {
 
             tbody.innerHTML += `
+
                 <tr>
 
-                    <td>${relatorio.id}</td>
+                    <td>
+                        ${relatorio.id}
+                    </td>
 
-                    <td>${relatorio.paciente}</td>
+                    <td>
+                        ${relatorio.paciente || "-"}
+                    </td>
 
-                    <td>${relatorio.tipo}</td>
+                    <td>
+                        ${relatorio.tipo || "-"}
+                    </td>
 
-                    <td>${relatorio.data_emissao || "-"}</td>
+                    <td>
+                        ${relatorio.data_emissao || "-"}
+                    </td>
 
-                    <td>${relatorio.status}</td>
+                    <td>
+                        ${relatorio.status || "-"}
+                    </td>
 
                     <td>
 
                         <button
                             class="btn-primary"
-                            onclick="visualizarRelatorio(${relatorio.id})">
+                            onclick="visualizarRelatorio(${relatorio.id})"
+                        >
 
                             👁 Visualizar
 
@@ -105,6 +153,7 @@ async function carregarRelatorios() {
                     </td>
 
                 </tr>
+
             `;
 
         });
@@ -127,13 +176,17 @@ async function carregarRelatorios() {
 
 async function visualizarRelatorio(id) {
 
-    console.log("ID do relatório selecionado:", id);
+    console.log(
+        "ID do relatório selecionado:",
+        id
+    );
 
     try {
 
-        const resposta = await fetch(
-            `http://localhost:3000/relatorios/${id}`
-        );
+        const resposta =
+            await fetch(
+                `http://localhost:3000/relatorios/${id}`
+            );
 
         console.log(
             "Status da resposta:",
@@ -142,13 +195,16 @@ async function visualizarRelatorio(id) {
 
         if (!resposta.ok) {
 
-            alert("Não foi possível encontrar o relatório.");
+            alert(
+                "Não foi possível encontrar o relatório."
+            );
 
             return;
 
         }
 
-        const relatorio = await resposta.json();
+        const relatorio =
+            await resposta.json();
 
         console.log(
             "Relatório recebido:",
@@ -156,13 +212,12 @@ async function visualizarRelatorio(id) {
         );
 
 
-        // ==================================
-        // O MAIS IMPORTANTE
-        // ==================================
+        // ===============================
+        // GUARDAR ID
+        // ===============================
 
-        // Guardamos o ID do relatório.
-
-        relatorioAtual = relatorio.id;
+        relatorioAtual =
+            relatorio.id;
 
         console.log(
             "Relatório atual:",
@@ -170,103 +225,305 @@ async function visualizarRelatorio(id) {
         );
 
 
-        // ==================================
-        // PREENCHER O MODAL
-        // ==================================
+        // ===============================
+        // PREENCHER DADOS
+        // ===============================
 
-        document.getElementById(
-            "relatorioPaciente"
-        ).textContent = relatorio.paciente || "-";
+        const paciente =
+            document.getElementById(
+                "relatorioPaciente"
+            );
 
+        const tipo =
+            document.getElementById(
+                "relatorioTipo"
+            );
 
-        document.getElementById(
-            "relatorioTipo"
-        ).textContent = relatorio.tipo || "-";
+        const dataColeta =
+            document.getElementById(
+                "relatorioDataColeta"
+            );
 
+        const dataEmissao =
+            document.getElementById(
+                "relatorioDataEmissao"
+            );
 
-        document.getElementById(
-            "relatorioDataColeta"
-        ).textContent = relatorio.data_coleta || "-";
+        const status =
+            document.getElementById(
+                "relatorioStatus"
+            );
 
+        const resultado =
+            document.getElementById(
+                "relatorioResultado"
+            );
 
-        document.getElementById(
-            "relatorioDataEmissao"
-        ).textContent = relatorio.data_emissao || "-";
-
-
-        document.getElementById(
-            "relatorioStatus"
-        ).textContent = relatorio.status || "-";
-
-
-        document.getElementById(
-            "relatorioResultado"
-        ).value = relatorio.resultado || "";
-
-
-        document.getElementById(
-            "relatorioLaudo"
-        ).value = relatorio.laudo || "";
-
-        
-        // ==================================
-// MOSTRAR IMAGENS DA AMOSTRA
-// ==================================
-
-const containerImagens =
-    document.getElementById("imagensRelatorio");
-
-containerImagens.innerHTML = "";
-
-if (
-    relatorio.imagens &&
-    relatorio.imagens.length > 0
-) {
-
-    relatorio.imagens.forEach((imagem) => {
-
-        const div = document.createElement("div");
-
-        div.className = "imagem-relatorio";
-
-        div.innerHTML = `
-
-            <img
-                src="${imagem.arquivo}"
-                alt="Imagem da amostra"
-            >
-
-            <div class="info-imagem">
-
-                <strong>
-                    Câmera:
-                </strong>
-
-                ${imagem.camera || "-"}
-
-            </div>
-
-        `;
-
-        containerImagens.appendChild(div);
-
-    });
-
-} else {
-
-    containerImagens.innerHTML = `
-        <p>Nenhuma imagem registrada.</p>
-    `;
-
-}
+        const laudo =
+            document.getElementById(
+                "relatorioLaudo"
+            );
 
 
-        // Abre o modal
+        if (paciente)
+            paciente.textContent =
+                relatorio.paciente || "-";
 
-        document.getElementById(
-            "modalRelatorio"
-        ).style.display = "flex";
+        if (tipo)
+            tipo.textContent =
+                relatorio.tipo || "-";
 
+        if (dataColeta)
+            dataColeta.textContent =
+                relatorio.data_coleta || "-";
+
+        if (dataEmissao)
+            dataEmissao.textContent =
+                relatorio.data_emissao || "-";
+
+        if (status)
+            status.textContent =
+                relatorio.status || "-";
+
+        if (resultado)
+            resultado.value =
+                relatorio.resultado || "";
+
+        if (laudo)
+            laudo.value =
+                relatorio.laudo || "";
+
+
+        // ===============================
+        // MOSTRAR IMAGENS
+        // ===============================
+
+        const containerImagens =
+            document.getElementById(
+                "imagensRelatorio"
+            );
+
+        if (containerImagens) {
+
+            containerImagens.innerHTML = "";
+
+            if (
+                relatorio.imagens &&
+                relatorio.imagens.length > 0
+            ) {
+
+                relatorio.imagens.forEach(
+                    (imagem) => {
+
+                        const div =
+                            document.createElement(
+                                "div"
+                            );
+
+                        div.className =
+                            "imagem-relatorio";
+
+                        div.innerHTML = `
+
+                            <img
+                                src="${imagem.arquivo}"
+                                alt="Imagem da amostra"
+                            >
+
+                            <div class="info-imagem">
+
+                                <strong>
+                                    Câmera:
+                                </strong>
+
+                                ${imagem.camera || "-"}
+
+                            </div>
+
+                        `;
+
+                        containerImagens.appendChild(
+                            div
+                        );
+
+                    }
+                );
+
+            } else {
+
+                containerImagens.innerHTML = `
+                    <p>
+                        Nenhuma imagem registrada.
+                    </p>
+                `;
+
+            }
+
+        }
+
+
+        // ===============================
+        // CARREGAR ANÁLISE DA IA
+        // ===============================
+
+        const iaResultado =
+            document.getElementById(
+                "iaResultado"
+            );
+
+        const iaConfianca =
+            document.getElementById(
+                "iaConfianca"
+            );
+
+        const iaTempo =
+            document.getElementById(
+                "iaTempo"
+            );
+
+
+        // Estado inicial
+
+        if (iaResultado)
+            iaResultado.textContent =
+                "Carregando...";
+
+        if (iaConfianca)
+            iaConfianca.textContent =
+                "-";
+
+        if (iaTempo)
+            iaTempo.textContent =
+                "-";
+
+
+        try {
+
+            const respostaIA =
+                await fetch(
+                    `http://localhost:3000/relatorios/${id}/analises-ia`
+                );
+
+
+            if (respostaIA.ok) {
+
+                const analises =
+                    await respostaIA.json();
+
+                console.log(
+                    "Análises da IA:",
+                    analises
+                );
+
+
+                if (
+                    analises &&
+                    analises.length > 0
+                ) {
+
+                    // A API retorna
+                    // da mais recente para a mais antiga
+
+                    const analise =
+                        analises[0];
+
+
+                    if (iaResultado) {
+
+                        iaResultado.textContent =
+                            analise.resultado || "-";
+
+                    }
+
+
+                    if (iaConfianca) {
+
+                        iaConfianca.textContent =
+                            analise.confianca != null
+                                ? `${(
+                                    analise.confianca * 100
+                                ).toFixed(2)}%`
+                                : "-";
+
+                    }
+
+
+                    if (iaTempo) {
+
+                        iaTempo.textContent =
+                            analise.tempo_processamento != null
+                                ? `${analise.tempo_processamento} segundos`
+                                : "-";
+
+                    }
+
+                } else {
+
+                    if (iaResultado)
+                        iaResultado.textContent =
+                            "Nenhuma análise realizada.";
+
+                    if (iaConfianca)
+                        iaConfianca.textContent =
+                            "-";
+
+                    if (iaTempo)
+                        iaTempo.textContent =
+                            "-";
+
+                }
+
+            } else {
+
+                if (iaResultado)
+                    iaResultado.textContent =
+                        "Nenhuma análise realizada.";
+
+            }
+
+        } catch (erroIA) {
+
+            console.error(
+                "Erro ao carregar análise da IA:",
+                erroIA
+            );
+
+            if (iaResultado)
+                iaResultado.textContent =
+                    "Não foi possível carregar a análise.";
+
+            if (iaConfianca)
+                iaConfianca.textContent =
+                    "-";
+
+            if (iaTempo)
+                iaTempo.textContent =
+                    "-";
+
+        }
+
+
+        // ===============================
+        // ABRIR MODAL
+        // ===============================
+
+        const modal =
+            document.getElementById(
+                "modalRelatorio"
+            );
+
+        if (modal) {
+
+            modal.style.display =
+                "flex";
+
+        } else {
+
+            console.error(
+                "Elemento #modalRelatorio não encontrado."
+            );
+
+        }
 
     } catch (erro) {
 
@@ -275,7 +532,9 @@ if (
             erro
         );
 
-        alert("Erro ao carregar o relatório.");
+        alert(
+            "Erro ao carregar o relatório."
+        );
 
     }
 
@@ -287,25 +546,41 @@ if (
 // ===============================
 
 const btnFecharRelatorio =
-    document.getElementById("fecharRelatorio");
+    document.getElementById(
+        "fecharRelatorio"
+    );
 
 if (btnFecharRelatorio) {
 
     btnFecharRelatorio.onclick = () => {
 
-        document.getElementById(
-            "modalRelatorio"
-        ).style.display = "none";
+        const modal =
+            document.getElementById(
+                "modalRelatorio"
+            );
+
+        if (modal) {
+
+            modal.style.display =
+                "none";
+
+        }
+
+        relatorioAtual = null;
 
     };
 
 }
 
 
-// Fechar clicando fora do modal
+// ===============================
+// FECHAR CLICANDO FORA
+// ===============================
 
 const modalRelatorio =
-    document.getElementById("modalRelatorio");
+    document.getElementById(
+        "modalRelatorio"
+    );
 
 if (modalRelatorio) {
 
@@ -313,9 +588,14 @@ if (modalRelatorio) {
         "click",
         (e) => {
 
-            if (e.target === modalRelatorio) {
+            if (
+                e.target === modalRelatorio
+            ) {
 
-                modalRelatorio.style.display = "none";
+                modalRelatorio.style.display =
+                    "none";
+
+                relatorioAtual = null;
 
             }
 
@@ -326,131 +606,113 @@ if (modalRelatorio) {
 
 
 // ===============================
-// SALVAR ALTERAÇÕES
+// SALVAR RELATÓRIO
 // ===============================
 
 const btnSalvarRelatorio =
-    document.getElementById("salvarRelatorio");
-
+    document.getElementById(
+        "salvarRelatorio"
+    );
 
 if (btnSalvarRelatorio) {
 
-    btnSalvarRelatorio.onclick = async () => {
+    btnSalvarRelatorio.onclick =
+        async () => {
 
+            if (!relatorioAtual) {
 
-        // Verifica se existe um relatório selecionado
+                alert(
+                    "Nenhum relatório selecionado."
+                );
 
-        if (!relatorioAtual) {
-
-            alert("Nenhum relatório selecionado.");
-
-            return;
-
-        }
-
-
-        // Pega os valores digitados
-
-        const resultado =
-            document.getElementById(
-                "relatorioResultado"
-            ).value;
-
-
-        const laudo =
-            document.getElementById(
-                "relatorioLaudo"
-            ).value;
-
-
-        try {
-
-            const resposta = await fetch(
-
-                `http://localhost:3000/relatorios/${relatorioAtual}`,
-
-                {
-
-                    method: "PUT",
-
-                    headers: {
-
-                        "Content-Type":
-                            "application/json"
-
-                    },
-
-                    body: JSON.stringify({
-
-                        resultado,
-                        laudo
-
-                    })
-
-                }
-
-            );
-
-
-            const dados =
-                await resposta.json();
-
-
-            alert(
-                dados.mensagem ||
-                dados.erro
-            );
-
-
-            if (resposta.ok) {
-
-                document.getElementById(
-                    "modalRelatorio"
-                ).style.display = "none";
-
-
-                // Atualiza a tabela
-
-                carregarRelatorios();
-
-
-                // Limpa o relatório selecionado
-
-                relatorioAtual = null;
+                return;
 
             }
 
 
-        } catch (erro) {
+            const resultado =
+                document.getElementById(
+                    "relatorioResultado"
+                ).value;
 
-            console.error(
-                "Erro ao salvar relatório:",
-                erro
-            );
 
-            alert(
-                "Erro ao salvar o relatório."
-            );
+            const laudo =
+                document.getElementById(
+                    "relatorioLaudo"
+                ).value;
 
-        }
 
-    };
+            try {
+
+                const resposta =
+                    await fetch(
+                        `http://localhost:3000/relatorios/${relatorioAtual}`,
+                        {
+                            method: "PUT",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
+
+                            body: JSON.stringify({
+                                resultado,
+                                laudo
+                            })
+                        }
+                    );
+
+
+                const dados =
+                    await resposta.json();
+
+
+                alert(
+                    dados.mensagem ||
+                    dados.erro
+                );
+
+
+                if (resposta.ok) {
+
+                    document.getElementById(
+                        "modalRelatorio"
+                    ).style.display =
+                        "none";
+
+                    relatorioAtual =
+                        null;
+
+                    carregarRelatorios();
+
+                }
+
+            } catch (erro) {
+
+                console.error(
+                    "Erro ao salvar relatório:",
+                    erro
+                );
+
+                alert(
+                    "Erro ao salvar o relatório."
+                );
+
+            }
+
+        };
 
 }
 
-
-// ===============================
-// INICIAR
-// ===============================
-
-carregarRelatorios();
 
 // ===============================
 // GERAR PDF
 // ===============================
 
 const btnGerarPDF =
-    document.getElementById("gerarPDF");
+    document.getElementById(
+        "gerarPDF"
+    );
 
 if (btnGerarPDF) {
 
@@ -458,7 +720,9 @@ if (btnGerarPDF) {
 
         if (!relatorioAtual) {
 
-            alert("Nenhum relatório selecionado.");
+            alert(
+                "Nenhum relatório selecionado."
+            );
 
             return;
 
@@ -472,3 +736,302 @@ if (btnGerarPDF) {
     };
 
 }
+
+
+// ===============================
+// ANALISAR IMAGEM COM IA
+// ===============================
+
+const btnAnalisarIA =
+    document.getElementById(
+        "analisarIA"
+    );
+
+if (btnAnalisarIA) {
+
+    btnAnalisarIA.onclick =
+        async () => {
+
+            if (!relatorioAtual) {
+
+                alert(
+                    "Nenhum relatório selecionado."
+                );
+
+                return;
+
+            }
+
+
+            try {
+
+                // ===============================
+                // BUSCAR RELATÓRIO
+                // ===============================
+
+                const resposta =
+                    await fetch(
+                        `http://localhost:3000/relatorios/${relatorioAtual}`
+                    );
+
+
+                if (!resposta.ok) {
+
+                    alert(
+                        "Não foi possível carregar as imagens."
+                    );
+
+                    return;
+
+                }
+
+
+                const relatorio =
+                    await resposta.json();
+
+
+                // ===============================
+                // VERIFICAR IMAGENS
+                // ===============================
+
+                if (
+                    !relatorio.imagens ||
+                    relatorio.imagens.length === 0
+                ) {
+
+                    alert(
+                        "Este relatório não possui imagens para analisar."
+                    );
+
+                    return;
+
+                }
+
+
+                // Primeira imagem
+
+                const imagem =
+                    relatorio.imagens[0];
+
+
+                console.log(
+                    "Imagem selecionada:",
+                    imagem
+                );
+
+
+                if (!imagem.arquivo) {
+
+                    alert(
+                        "A imagem não possui um arquivo válido."
+                    );
+
+                    return;
+
+                }
+
+
+                // ===============================
+                // BAIXAR IMAGEM
+                // ===============================
+
+                const respostaImagem =
+                    await fetch(
+                        imagem.arquivo
+                    );
+
+
+                if (!respostaImagem.ok) {
+
+                    alert(
+                        "Não foi possível acessar a imagem."
+                    );
+
+                    return;
+
+                }
+
+
+                const blob =
+                    await respostaImagem.blob();
+
+
+                // ===============================
+                // CRIAR ARQUIVO
+                // ===============================
+
+                const nomeArquivo =
+                    imagem.arquivo
+                        .split("/")
+                        .pop() ||
+                    "imagem.webp";
+
+
+                const arquivoImagem =
+                    new File(
+                        [blob],
+                        nomeArquivo,
+                        {
+                            type:
+                                blob.type ||
+                                "image/webp"
+                        }
+                    );
+
+
+                // ===============================
+                // FORM DATA
+                // ===============================
+
+                const formData =
+                    new FormData();
+
+
+                formData.append(
+                    "imagem",
+                    arquivoImagem
+                );
+
+
+                formData.append(
+                    "relatorio_id",
+                    relatorioAtual
+                );
+
+
+                formData.append(
+                    "imagem_id",
+                    imagem.id
+                );
+
+
+                // ===============================
+                // BOTÃO
+                // ===============================
+
+                btnAnalisarIA.disabled =
+                    true;
+
+                btnAnalisarIA.textContent =
+                    "🧠 Analisando...";
+
+
+                // ===============================
+                // ENVIAR PARA IA
+                // ===============================
+
+                const respostaIA =
+                    await fetch(
+                        "http://localhost:3000/analises-ia/imagem",
+                        {
+                            method: "POST",
+                            body: formData
+                        }
+                    );
+
+
+                const dadosIA =
+                    await respostaIA.json();
+
+
+                console.log(
+                    "Resposta da IA:",
+                    dadosIA
+                );
+
+
+                if (!respostaIA.ok) {
+
+                    alert(
+                        dadosIA.erro ||
+                        "Erro ao analisar imagem."
+                    );
+
+                    return;
+
+                }
+
+
+                // ===============================
+                // MOSTRAR RESULTADO
+                // ===============================
+
+                const campoResultado =
+                    document.getElementById(
+                        "iaResultado"
+                    );
+
+                const campoConfianca =
+                    document.getElementById(
+                        "iaConfianca"
+                    );
+
+                const campoTempo =
+                    document.getElementById(
+                        "iaTempo"
+                    );
+
+
+                if (campoResultado) {
+
+                    campoResultado.textContent =
+                        dadosIA.resultado;
+
+                }
+
+
+                if (campoConfianca) {
+
+                    campoConfianca.textContent =
+                        (
+                            dadosIA.confianca *
+                            100
+                        ).toFixed(2) + "%";
+
+                }
+
+
+                if (campoTempo) {
+
+                    campoTempo.textContent =
+                        dadosIA.tempo_processamento +
+                        " segundos";
+
+                }
+
+
+                alert(
+                    "Imagem analisada com sucesso!"
+                );
+
+            } catch (erro) {
+
+                console.error(
+                    "Erro ao analisar imagem:",
+                    erro
+                );
+
+                alert(
+                    "Erro ao comunicar com a IA."
+                );
+
+            } finally {
+
+                btnAnalisarIA.disabled =
+                    false;
+
+                btnAnalisarIA.textContent =
+                    "🧠 Analisar imagem com IA";
+
+            }
+
+        };
+
+}
+
+
+// ===============================
+// INICIAR
+// ===============================
+
+carregarRelatorios();

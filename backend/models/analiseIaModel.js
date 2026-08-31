@@ -49,6 +49,7 @@ function salvarAnalise(analise) {
 
 }
 
+
 // ===============================
 // BUSCAR ANÁLISES DO RELATÓRIO
 // ===============================
@@ -60,16 +61,29 @@ function listarPorRelatorio(relatorio_id) {
         db.all(
             `
             SELECT
-                id,
-                relatorio_id,
-                resultado,
-                confianca,
-                tempo_processamento
+                analises_ia.id,
+                analises_ia.relatorio_id,
+                analises_ia.imagem_id,
+                analises_ia.resultado,
+                analises_ia.confianca,
+                analises_ia.tempo_processamento,
+
+                imagens_amostras.arquivo,
+                imagens_amostras.camera,
+                imagens_amostras.data_captura
+
             FROM analises_ia
-            WHERE relatorio_id = ?
-            ORDER BY id DESC
+
+            LEFT JOIN imagens_amostras
+                ON analises_ia.imagem_id = imagens_amostras.id
+
+            WHERE analises_ia.relatorio_id = ?
+
+            ORDER BY analises_ia.id DESC
             `,
+
             [relatorio_id],
+
             (err, rows) => {
 
                 if (err) {
@@ -88,7 +102,6 @@ function listarPorRelatorio(relatorio_id) {
     });
 
 }
-
 
 module.exports = {
 
