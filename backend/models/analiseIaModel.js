@@ -14,14 +14,16 @@ function salvarAnalise(analise) {
             `INSERT INTO analises_ia
             (
                 relatorio_id,
+                imagem_id,
                 resultado,
                 confianca,
                 tempo_processamento
             )
-            VALUES (?, ?, ?, ?)`,
+            VALUES (?, ?, ?, ?, ?)`,
 
             [
                 analise.relatorio_id,
+                analise.imagem_id,
                 analise.resultado,
                 analise.confianca,
                 analise.tempo_processamento
@@ -47,32 +49,27 @@ function salvarAnalise(analise) {
 
 }
 
-
 // ===============================
-// BUSCAR ANÁLISES DE UM RELATÓRIO
+// BUSCAR ANÁLISES DO RELATÓRIO
 // ===============================
 
-function listarAnalisesPorRelatorio(relatorio_id) {
+function listarPorRelatorio(relatorio_id) {
 
     return new Promise((resolve, reject) => {
 
         db.all(
-
-            `SELECT
+            `
+            SELECT
                 id,
                 relatorio_id,
                 resultado,
                 confianca,
                 tempo_processamento
-
-             FROM analises_ia
-
-             WHERE relatorio_id = ?
-
-             ORDER BY id DESC`,
-
+            FROM analises_ia
+            WHERE relatorio_id = ?
+            ORDER BY id DESC
+            `,
             [relatorio_id],
-
             (err, rows) => {
 
                 if (err) {
@@ -86,7 +83,6 @@ function listarAnalisesPorRelatorio(relatorio_id) {
                 }
 
             }
-
         );
 
     });
@@ -97,6 +93,6 @@ function listarAnalisesPorRelatorio(relatorio_id) {
 module.exports = {
 
     salvarAnalise,
-    listarAnalisesPorRelatorio
+    listarPorRelatorio
 
 };
