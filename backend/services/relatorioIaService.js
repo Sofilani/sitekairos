@@ -4,42 +4,70 @@
 
 function gerarRelatorio(analises) {
 
+    // ==========================================
+    // NENHUMA ANÁLISE
+    // ==========================================
+
     if (!analises || analises.length === 0) {
 
         return {
-            resultado: "Nenhuma análise de IA disponível.",
-            laudo: "Não foi possível gerar um laudo automático, pois nenhuma análise foi registrada.",
-            status: "Aguardando análise"
+
+            resultado:
+                "Nenhuma análise de IA disponível.",
+
+            laudo:
+                "Não foi possível gerar um laudo automático, pois nenhuma análise foi registrada.",
+
+            status:
+                "Aguardando análise"
+
         };
 
     }
 
 
     // ==========================================
-    // CONSIDERAR APENAS ANÁLISES VÁLIDAS
+    // FILTRAR ANÁLISES VÁLIDAS
     // ==========================================
 
     const analisesValidas =
-        analises.filter(analise =>
-            analise.resultado &&
-            analise.confianca !== null &&
-            analise.confianca !== undefined
-        );
+        analises.filter(analise => {
 
+            return (
+
+                analise.resultado &&
+                analise.confianca !== null &&
+                analise.confianca !== undefined
+
+            );
+
+        });
+
+
+    // ==========================================
+    // NENHUMA ANÁLISE VÁLIDA
+    // ==========================================
 
     if (analisesValidas.length === 0) {
 
         return {
-            resultado: "Análise inconclusiva.",
-            laudo: "As imagens foram processadas, porém não foram obtidos resultados suficientes para gerar um laudo automático.",
-            status: "Aguardando revisão"
+
+            resultado:
+                "Análise inconclusiva.",
+
+            laudo:
+                "As imagens foram processadas, porém não foram obtidos resultados suficientes para gerar um laudo automático.",
+
+            status:
+                "Aguardando revisão"
+
         };
 
     }
 
 
     // ==========================================
-    // AGRUPAR RESULTADOS
+    // CONTAR RESULTADOS
     // ==========================================
 
     const contagem = {};
@@ -48,23 +76,33 @@ function gerarRelatorio(analises) {
     analisesValidas.forEach(analise => {
 
         const resultado =
-            analise.resultado.trim();
+            String(analise.resultado).trim();
 
 
-        if (!contagem[resultado]) {
+        const chave =
+            resultado.toLowerCase();
 
-            contagem[resultado] = 0;
+
+        if (!contagem[chave]) {
+
+            contagem[chave] = {
+
+                nome: resultado,
+
+                quantidade: 0
+
+            };
 
         }
 
 
-        contagem[resultado]++;
+        contagem[chave].quantidade++;
 
     });
 
 
     // ==========================================
-    // ENCONTRAR RESULTADO MAIS FREQUENTE
+    // RESULTADO MAIS FREQUENTE
     // ==========================================
 
     let resultadoPrincipal = null;
@@ -72,32 +110,22 @@ function gerarRelatorio(analises) {
     let maiorQuantidade = 0;
 
 
-    Object.entries(contagem).forEach(
-        ([resultado, quantidade]) => {
+    Object.values(contagem).forEach(item => {
 
-            if (quantidade > maiorQuantidade) {
+        if (
+            item.quantidade >
+            maiorQuantidade
+        ) {
 
-                maiorQuantidade = quantidade;
+            maiorQuantidade =
+                item.quantidade;
 
-                resultadoPrincipal = resultado;
-
-            }
+            resultadoPrincipal =
+                item.nome;
 
         }
-    );
 
-
-    // ==========================================
-    // MAIOR CONFIANÇA
-    // ==========================================
-
-    const maiorConfianca =
-        Math.max(
-            ...analisesValidas.map(
-                analise =>
-                    Number(analise.confianca)
-            )
-        );
+    });
 
 
     // ==========================================
@@ -105,40 +133,70 @@ function gerarRelatorio(analises) {
     // ==========================================
 
     const confiancaMedia =
+
         analisesValidas.reduce(
-            (total, analise) =>
-                total +
-                Number(analise.confianca),
+
+            (total, analise) => {
+
+                return (
+
+                    total +
+                    Number(analise.confianca)
+
+                );
+
+            },
+
             0
+
         ) / analisesValidas.length;
 
 
-    const confiancaPercentual =
-        (confiancaMedia * 100).toFixed(2);
+    // ==========================================
+    // MAIOR CONFIANÇA
+    // ==========================================
+
+    const maiorConfianca =
+
+        Math.max(
+
+            ...analisesValidas.map(
+
+                analise =>
+                    Number(
+                        analise.confianca
+                    )
+
+            )
+
+        );
+
+
+    // ==========================================
+    // CONVERTER PARA PORCENTAGEM
+    // ==========================================
+
+    const confiancaMediaPercentual =
+
+        (
+            confiancaMedia * 100
+        ).toFixed(2);
+
+
+    const maiorConfiancaPercentual =
+
+        (
+            maiorConfianca * 100
+        ).toFixed(2);
 
 
     // ==========================================
     // RESULTADO AUTOMÁTICO
     // ==========================================
 
-    let resultadoFinal;
+    const resultadoFinal =
 
-
-    if (
-        resultadoPrincipal
-            .toLowerCase()
-            .includes("bactéria")
-    ) {
-
-        resultadoFinal =
-            `Presença de ${resultadoPrincipal.toLowerCase()} detectada nas imagens analisadas.`;
-
-    } else {
-
-        resultadoFinal =
-            `Resultado da análise de imagem: ${resultadoPrincipal}.`;
-
-    }
+        `Resultado da análise de imagem: ${resultadoPrincipal}.`;
 
 
     // ==========================================
@@ -147,29 +205,42 @@ function gerarRelatorio(analises) {
 
     const laudoFinal =
 
-        `Análise automatizada das imagens da amostra ` +
-        `realizada pelo sistema de inteligência artificial. ` +
-
-        `Foram analisadas ${analisesValidas.length} imagem(ns), ` +
-        `com confiança média de ${confiancaPercentual}%. ` +
+        `Foram analisadas ` +
+        `${analisesValidas.length} imagem(ns) ` +
+        `da amostra pelo sistema de inteligência artificial. ` +
 
         `O resultado predominante identificado foi ` +
         `"${resultadoPrincipal}". ` +
 
-        `A maior confiança registrada entre as análises foi ` +
-        `${(maiorConfianca * 100).toFixed(2)}%. ` +
+        `A confiança média das análises foi de ` +
+        `${confiancaMediaPercentual}%, ` +
 
-        `O resultado gerado automaticamente deve ser ` +
-        `revisado e validado pelo responsável técnico antes da emissão definitiva do relatório.`;
+        `com maior confiança registrada de ` +
+        `${maiorConfiancaPercentual}%. ` +
 
+        `O resultado foi gerado automaticamente ` +
+        `a partir das análises fornecidas pelo sistema ` +
+        `de monitoramento e inteligência artificial. ` +
+
+        `O conteúdo deve ser revisado e validado ` +
+        `pelo responsável técnico antes da emissão ` +
+        `definitiva do relatório.`;
+
+
+    // ==========================================
+    // RETORNAR
+    // ==========================================
 
     return {
 
-        resultado: resultadoFinal,
+        resultado:
+            resultadoFinal,
 
-        laudo: laudoFinal,
+        laudo:
+            laudoFinal,
 
-        status: "Aguardando revisão"
+        status:
+            "Aguardando revisão"
 
     };
 
@@ -177,7 +248,7 @@ function gerarRelatorio(analises) {
 
 
 // ==========================================
-// EXPORTAR SERVIÇO
+// EXPORTAR
 // ==========================================
 
 module.exports = {

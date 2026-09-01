@@ -25,6 +25,12 @@ app.use(
 );
 app.use(express.static(path.join(__dirname, "../frontend")));
 
+app.use(
+    "/uploads",
+    express.static(
+        path.join(__dirname, "../uploads")
+    )
+);
 app.use(usuarioRoutes);
 app.use(estatisticasRoutes);
 app.use(pacienteRoutes);
