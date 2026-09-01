@@ -6,26 +6,54 @@ async function dashboard(req, res) {
 
         db.get(`
             SELECT
+
+                (SELECT COUNT(*) FROM pacientes) AS pacientes,
+
+                (SELECT COUNT(*) FROM amostras) AS amostras,
+
+                (SELECT COUNT(*) FROM relatorios) AS relatorios,
+
+                (SELECT COUNT(*) FROM analises_ia) AS ia,
+
                 (SELECT COUNT(*) FROM usuarios) AS usuarios
+
         `,
 
         (err, row) => {
 
             if (err) {
-                return res.status(500).json(err);
+
+                console.error(
+                    "Erro ao buscar estatísticas:",
+                    err
+                );
+
+                return res.status(500).json({
+
+                    erro:
+                        "Erro ao carregar estatísticas do dashboard."
+
+                });
+
             }
+
 
             res.json({
 
-                pacientes: 0,
+                pacientes:
+                    row.pacientes,
 
-                amostras: 0,
+                amostras:
+                    row.amostras,
 
-                relatorios: 0,
+                relatorios:
+                    row.relatorios,
 
-                ia: 0,
+                ia:
+                    row.ia,
 
-                usuarios: row.usuarios
+                usuarios:
+                    row.usuarios
 
             });
 
@@ -33,14 +61,25 @@ async function dashboard(req, res) {
 
     } catch (erro) {
 
+        console.error(
+            "Erro no dashboard:",
+            erro
+        );
+
         res.status(500).json({
-            erro: erro.message
+
+            erro:
+                erro.message
+
         });
 
     }
 
 }
 
+
 module.exports = {
+
     dashboard
+
 };

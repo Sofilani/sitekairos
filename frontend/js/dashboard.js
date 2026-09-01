@@ -1,4 +1,38 @@
 // Mobile Navbar Toggle
+// =====================================================
+// USUÁRIO LOGADO
+// =====================================================
+
+const usuarioSalvo =
+    localStorage.getItem("usuario");
+
+if (usuarioSalvo) {
+
+    try {
+
+        const usuario =
+            JSON.parse(usuarioSalvo);
+
+        const nomeUsuario =
+            document.getElementById("nomeUsuario");
+
+        if (nomeUsuario) {
+
+            nomeUsuario.textContent =
+                usuario.nome || "Usuário";
+
+        }
+
+    } catch (erro) {
+
+        console.error(
+            "Erro ao carregar usuário:",
+            erro
+        );
+
+    }
+
+}
 document.addEventListener("DOMContentLoaded", () => {
   const hamburger = document.getElementById("hamburgerBtn");
   const navMenu = document.getElementById("navMenu");
