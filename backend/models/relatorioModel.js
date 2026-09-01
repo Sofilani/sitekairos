@@ -223,11 +223,66 @@ function atualizarRelatorio(id, resultado, laudo) {
 
 }
 
+// ==========================================
+// ATUALIZAR RELATÓRIO AUTOMATICAMENTE
+// ==========================================
+
+function atualizarAutomaticamente(
+    id,
+    resultado,
+    laudo,
+    status
+) {
+
+    return new Promise((resolve, reject) => {
+
+        db.run(
+
+            `
+            UPDATE relatorios
+
+            SET
+                resultado = ?,
+                laudo = ?,
+                status = ?
+
+            WHERE id = ?
+
+            `,
+
+            [
+                resultado,
+                laudo,
+                status,
+                id
+            ],
+
+            function(err) {
+
+                if (err) {
+
+                    reject(err);
+
+                } else {
+
+                    resolve(this.changes);
+
+                }
+
+            }
+
+        );
+
+    });
+
+}
+
 module.exports = {
 
     criarRelatorio,
     listarRelatorios,
     buscarRelatorio,
-    atualizarRelatorio
+    atualizarRelatorio,
+    atualizarAutomaticamente
 
 };

@@ -10,6 +10,8 @@ const estatisticasRoutes = require("./routes/estatisticasRoutes");
 const pacienteRoutes = require("./routes/pacienteRoutes");
 const amostraRoutes = require("./routes/amostraRoutes");
 const relatorioRoutes = require("./routes/relatorioRoutes");
+const integracaoIaRoutes =
+    require("./routes/integracaoIaRoutes");
 
 const app = express();
 
@@ -30,6 +32,7 @@ app.use(amostraRoutes);
 app.use(relatorioRoutes);
 app.use(imagemAmostraRoutes);
 app.use(analiseIaRoutes);
+app.use(integracaoIaRoutes);
 
 app.get("/", (req, res) => {
     res.send("Servidor KAIRÓS funcionando! ");
