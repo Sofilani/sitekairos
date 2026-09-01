@@ -44,16 +44,19 @@ function gerarRelatorio(analises) {
 
     const contagem = {};
 
+
     analisesValidas.forEach(analise => {
 
         const resultado =
             analise.resultado.trim();
+
 
         if (!contagem[resultado]) {
 
             contagem[resultado] = 0;
 
         }
+
 
         contagem[resultado]++;
 
@@ -65,7 +68,9 @@ function gerarRelatorio(analises) {
     // ==========================================
 
     let resultadoPrincipal = null;
+
     let maiorQuantidade = 0;
+
 
     Object.entries(contagem).forEach(
         ([resultado, quantidade]) => {
@@ -73,6 +78,7 @@ function gerarRelatorio(analises) {
             if (quantidade > maiorQuantidade) {
 
                 maiorQuantidade = quantidade;
+
                 resultadoPrincipal = resultado;
 
             }
@@ -119,7 +125,8 @@ function gerarRelatorio(analises) {
 
 
     if (
-        resultadoPrincipal.toLowerCase()
+        resultadoPrincipal
+            .toLowerCase()
             .includes("bactéria")
     ) {
 
@@ -168,6 +175,10 @@ function gerarRelatorio(analises) {
 
 }
 
+
+// ==========================================
+// EXPORTAR SERVIÇO
+// ==========================================
 
 module.exports = {
 
