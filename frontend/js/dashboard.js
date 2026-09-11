@@ -54,24 +54,100 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 async function carregarDashboard() {
-  try {
-    const resposta = await fetch("http://localhost:3000/dashboard");
-    if (!resposta.ok) return;
 
-    const dados = await resposta.json();
+    try {
 
-    const elPacientes = document.getElementById("totalPacientes");
-    const elAmostras = document.getElementById("totalAmostras");
-    const elRelatorios = document.getElementById("totalRelatorios");
-    const elIA = document.getElementById("totalIA");
+        const usuarioSalvo =
+            localStorage.getItem("usuario");
 
-    if (elPacientes) elPacientes.textContent = dados.pacientes ?? 0;
-    if (elAmostras) elAmostras.textContent = dados.amostras ?? 0;
-    if (elRelatorios) elRelatorios.textContent = dados.relatorios ?? 0;
-    if (elIA) elIA.textContent = dados.ia ?? 0;
-  } catch (erro) {
-    console.log("Erro ao carregar estatísticas do dashboard:", erro);
-  }
+
+        if (!usuarioSalvo) {
+
+            window.location.href =
+                "index.html";
+
+            return;
+
+        }
+
+
+        const usuario =
+            JSON.parse(usuarioSalvo);
+
+
+        const resposta =
+            await fetch(
+                `http://localhost:3000/dashboard?usuario_id=${usuario.id}`
+            );
+
+
+        if (!resposta.ok) {
+
+            console.error(
+                "Erro ao carregar dashboard."
+            );
+
+            return;
+
+        }
+
+
+        const dados =
+            await resposta.json();
+
+
+        const elPacientes =
+            document.getElementById(
+                "totalPacientes"
+            );
+
+        const elAmostras =
+            document.getElementById(
+                "totalAmostras"
+            );
+
+        const elRelatorios =
+            document.getElementById(
+                "totalRelatorios"
+            );
+
+        const elIA =
+            document.getElementById(
+                "totalIA"
+            );
+
+
+        if (elPacientes)
+            elPacientes.textContent =
+                dados.pacientes ?? 0;
+
+
+        if (elAmostras)
+            elAmostras.textContent =
+                dados.amostras ?? 0;
+
+
+        if (elRelatorios)
+            elRelatorios.textContent =
+                dados.relatorios ?? 0;
+
+
+        if (elIA)
+            elIA.textContent =
+                dados.ia ?? 0;
+
+
+    } catch (erro) {
+
+        console.error(
+            "Erro ao carregar estatísticas do dashboard:",
+            erro
+        );
+
+    }
+
 }
+
+
 
 carregarDashboard();

@@ -41,6 +41,34 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 
+// =====================================================
+// USUÁRIO LOGADO
+// =====================================================
+
+const usuarioSalvo =
+    localStorage.getItem("usuario");
+
+if (!usuarioSalvo) {
+
+    alert("Usuário não identificado. Faça login novamente.");
+
+    window.location.href = "index.html";
+
+}
+
+const usuario =
+    JSON.parse(usuarioSalvo);
+
+const usuarioId =
+    usuario.id;
+
+const nomeUsuario =
+    document.getElementById("nomeUsuario");
+
+if (nomeUsuario) {
+    nomeUsuario.textContent = usuario.nome;
+}
+
 
 // =====================================================
 // RELATÓRIO ATUAL
@@ -75,9 +103,9 @@ async function carregarRelatorios() {
     try {
 
         const resposta =
-            await fetch(
-                "http://localhost:3000/relatorios"
-            );
+    await fetch(
+        `http://localhost:3000/relatorios?usuario_id=${usuarioId}`
+    );
 
 
         if (!resposta.ok) {
@@ -236,10 +264,18 @@ async function visualizarRelatorio(id) {
         // BUSCAR RELATÓRIO
         // ---------------------------------------------
 
-        const resposta =
-            await fetch(
-                `http://localhost:3000/relatorios/${id}`
-            );
+       const usuarioSalvo = localStorage.getItem("usuario");
+
+if (!usuarioSalvo) {
+    window.location.href = "index.html";
+    return;
+}
+
+const usuario = JSON.parse(usuarioSalvo);
+
+const resposta = await fetch(
+    `http://localhost:3000/relatorios?usuario_id=${usuario.id}`
+);
 
 
         console.log(
@@ -259,23 +295,44 @@ async function visualizarRelatorio(id) {
         }
 
 
-        const relatorio =
-            await resposta.json();
+      const relatorios =
+    await resposta.json();
+
+const relatorio =
+    relatorios.find(
+        r => Number(r.id) === Number(id)
+    );
 
 
-        console.log(
-            "Relatório recebido:",
-            relatorio
-        );
+if (!relatorio) {
+
+    alert(
+        "Relatório não encontrado."
+    );
+
+    return;
+
+}
 
 
-        // ---------------------------------------------
-        // GUARDAR ID DO RELATÓRIO
-        // ---------------------------------------------
+console.log(
+    "Relatório recebido:",
+    relatorio
+);
 
-        relatorioAtual =
-            relatorio.id;
 
+// ---------------------------------------------
+// GUARDAR ID DO RELATÓRIO
+// ---------------------------------------------
+
+relatorioAtual =
+    id;
+
+
+console.log(
+    "Relatório atual:",
+    relatorioAtual
+);
 
         console.log(
             "Relatório atual:",

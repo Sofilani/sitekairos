@@ -8,21 +8,22 @@ function criarPaciente(paciente) {
         db.run(
 
             `INSERT INTO pacientes
-            (nome, data_nascimento, sexo, observacoes)
-            VALUES (?, ?, ?, ?)`,
+            (nome, data_nascimento, sexo, observacoes, usuario_id)
+            VALUES (?, ?, ?, ?, ?)`,
 
             [
                 paciente.nome,
                 paciente.data_nascimento,
                 paciente.sexo,
-                paciente.observacoes
+                paciente.observacoes,
+                paciente.usuario_id
             ],
 
-            function(err){
+            function(err) {
 
-                if(err){
+                if (err) {
                     reject(err);
-                }else{
+                } else {
                     resolve(this.lastID);
                 }
 
@@ -34,22 +35,26 @@ function criarPaciente(paciente) {
 
 }
 
-// Listar pacientes
-function listarPacientes(){
 
-    return new Promise((resolve,reject)=>{
+// Listar pacientes de um usuário
+function listarPacientes(usuario_id) {
+
+    return new Promise((resolve, reject) => {
 
         db.all(
 
-            "SELECT * FROM pacientes ORDER BY nome",
+            `SELECT *
+             FROM pacientes
+             WHERE usuario_id = ?
+             ORDER BY nome`,
 
-            [],
+            [usuario_id],
 
-            (err,rows)=>{
+            (err, rows) => {
 
-                if(err){
+                if (err) {
                     reject(err);
-                }else{
+                } else {
                     resolve(rows);
                 }
 
@@ -60,27 +65,27 @@ function listarPacientes(){
     });
 
 }
+
+
 // Excluir paciente
-function excluirPaciente(id) {
+function excluirPaciente(id, usuario_id) {
 
     return new Promise((resolve, reject) => {
 
         db.run(
 
-            "DELETE FROM pacientes WHERE id = ?",
+            `DELETE FROM pacientes
+             WHERE id = ?
+             AND usuario_id = ?`,
 
-            [id],
+            [id, usuario_id],
 
-            function (err) {
+            function(err) {
 
                 if (err) {
-
                     reject(err);
-
                 } else {
-
                     resolve();
-
                 }
 
             }
@@ -91,8 +96,9 @@ function excluirPaciente(id) {
 
 }
 
+
 // Atualizar paciente
-function atualizarPaciente(id, paciente) {
+function atualizarPaciente(id, paciente, usuario_id) {
 
     return new Promise((resolve, reject) => {
 
@@ -103,17 +109,19 @@ function atualizarPaciente(id, paciente) {
                  data_nascimento = ?,
                  sexo = ?,
                  observacoes = ?
-             WHERE id = ?`,
+             WHERE id = ?
+             AND usuario_id = ?`,
 
             [
                 paciente.nome,
                 paciente.data_nascimento,
                 paciente.sexo,
                 paciente.observacoes,
-                id
+                id,
+                usuario_id
             ],
 
-            function (err) {
+            function(err) {
 
                 if (err) {
                     reject(err);
@@ -128,6 +136,7 @@ function atualizarPaciente(id, paciente) {
     });
 
 }
+
 
 module.exports = {
 

@@ -1,29 +1,33 @@
 const db = require("../database/database");
 
-// Criar relatório
-function criarRelatorio(relatorio){
+// ==========================================
+// CRIAR RELATÓRIO
+// ==========================================
 
-    return new Promise((resolve,reject)=>{
+function criarRelatorio(relatorio) {
+
+    return new Promise((resolve, reject) => {
 
         db.run(
 
             `INSERT INTO relatorios
-            (amostra_id, resultado, laudo, status, data_emissao)
-            VALUES (?, ?, ?, ?, ?)`,
+            (amostra_id, resultado, laudo, status, data_emissao, usuario_id)
+            VALUES (?, ?, ?, ?, ?, ?)`,
 
             [
                 relatorio.amostra_id,
                 relatorio.resultado,
                 relatorio.laudo,
                 relatorio.status,
-                relatorio.data_emissao
+                relatorio.data_emissao,
+                relatorio.usuario_id
             ],
 
-            function(err){
+            function(err) {
 
-                if(err){
+                if (err) {
                     reject(err);
-                }else{
+                } else {
                     resolve(this.lastID);
                 }
 
@@ -35,10 +39,14 @@ function criarRelatorio(relatorio){
 
 }
 
-// Listar relatórios
-function listarRelatorios(){
 
-    return new Promise((resolve,reject)=>{
+// ==========================================
+// LISTAR RELATÓRIOS DO USUÁRIO
+// ==========================================
+
+function listarRelatorios(usuario_id) {
+
+    return new Promise((resolve, reject) => {
 
         db.all(
 
@@ -62,15 +70,17 @@ function listarRelatorios(){
             INNER JOIN pacientes
                 ON pacientes.id = amostras.paciente_id
 
+            WHERE relatorios.usuario_id = ?
+
             ORDER BY relatorios.id DESC`,
 
-            [],
+            [usuario_id],
 
-            (err,rows)=>{
+            (err, rows) => {
 
-                if(err){
+                if (err) {
                     reject(err);
-                }else{
+                } else {
                     resolve(rows);
                 }
 
@@ -81,16 +91,13 @@ function listarRelatorios(){
     });
 
 }
-// Buscar um relatório específico
-// ===============================
-// BUSCAR UM RELATÓRIO ESPECÍFICO
-// ===============================
 
-// ===============================
-// BUSCAR UM RELATÓRIO ESPECÍFICO
-// ===============================
 
-function buscarRelatorio(id) {
+// ==========================================
+// BUSCAR UM RELATÓRIO ESPECÍFICO
+// ==========================================
+
+function buscarRelatorio(id, usuario_id) {
 
     return new Promise((resolve, reject) => {
 
@@ -119,9 +126,10 @@ function buscarRelatorio(id) {
             INNER JOIN pacientes
                 ON pacientes.id = amostras.paciente_id
 
-            WHERE relatorios.id = ?`,
+            WHERE relatorios.id = ?
+            AND relatorios.usuario_id = ?`,
 
-            [id],
+            [id, usuario_id],
 
             (err, row) => {
 
@@ -141,9 +149,10 @@ function buscarRelatorio(id) {
 
                 }
 
-                // ===============================
+
+                // ==========================================
                 // BUSCAR IMAGENS DA AMOSTRA
-                // ===============================
+                // ==========================================
 
                 db.all(
 
@@ -188,20 +197,37 @@ function buscarRelatorio(id) {
     });
 
 }
-// Atualizar resultado e laudo
-function atualizarRelatorio(id, resultado, laudo) {
+
+
+// ==========================================
+// ATUALIZAR RESULTADO E LAUDO
+// ==========================================
+
+function atualizarRelatorio(
+    id,
+    resultado,
+    laudo,
+    usuario_id
+) {
 
     return new Promise((resolve, reject) => {
 
         db.run(
+
             `UPDATE relatorios
-             SET resultado = ?, laudo = ?
-             WHERE id = ?`,
+
+             SET
+                resultado = ?,
+                laudo = ?
+
+             WHERE id = ?
+             AND usuario_id = ?`,
 
             [
                 resultado,
                 laudo,
-                id
+                id,
+                usuario_id
             ],
 
             function(err) {
@@ -217,11 +243,13 @@ function atualizarRelatorio(id, resultado, laudo) {
                 }
 
             }
+
         );
 
     });
 
 }
+
 
 // ==========================================
 // ATUALIZAR RELATÓRIO AUTOMATICAMENTE
@@ -231,30 +259,30 @@ function atualizarAutomaticamente(
     id,
     resultado,
     laudo,
-    status
+    status,
+    usuario_id
 ) {
 
     return new Promise((resolve, reject) => {
 
         db.run(
 
-            `
-            UPDATE relatorios
+            `UPDATE relatorios
 
-            SET
+             SET
                 resultado = ?,
                 laudo = ?,
                 status = ?
 
-            WHERE id = ?
-
-            `,
+             WHERE id = ?
+             AND usuario_id = ?`,
 
             [
                 resultado,
                 laudo,
                 status,
-                id
+                id,
+                usuario_id
             ],
 
             function(err) {
@@ -276,6 +304,11 @@ function atualizarAutomaticamente(
     });
 
 }
+
+
+// ==========================================
+// EXPORTAR
+// ==========================================
 
 module.exports = {
 

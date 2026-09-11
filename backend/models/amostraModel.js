@@ -1,6 +1,9 @@
 const db = require("../database/database");
 
+// =====================================================
 // Criar amostra
+// =====================================================
+
 function criarAmostra(amostra) {
 
     return new Promise((resolve, reject) => {
@@ -8,15 +11,16 @@ function criarAmostra(amostra) {
         db.run(
 
             `INSERT INTO amostras
-            (paciente_id, tipo, status, data_coleta, observacoes)
-            VALUES (?, ?, ?, ?, ?)`,
+            (paciente_id, tipo, status, data_coleta, observacoes, usuario_id)
+            VALUES (?, ?, ?, ?, ?, ?)`,
 
             [
                 amostra.paciente_id,
                 amostra.tipo,
                 amostra.status,
                 amostra.data_coleta,
-                amostra.observacoes
+                amostra.observacoes,
+                amostra.usuario_id
             ],
 
             function (err) {
@@ -35,8 +39,12 @@ function criarAmostra(amostra) {
 
 }
 
-// Listar amostras
-function listarAmostras() {
+
+// =====================================================
+// Listar amostras do usuário
+// =====================================================
+
+function listarAmostras(usuario_id) {
 
     return new Promise((resolve, reject) => {
 
@@ -54,9 +62,11 @@ function listarAmostras() {
             INNER JOIN pacientes
             ON pacientes.id = amostras.paciente_id
 
+            WHERE amostras.usuario_id = ?
+
             ORDER BY amostras.id DESC`,
 
-            [],
+            [usuario_id],
 
             (err, rows) => {
 
@@ -73,6 +83,7 @@ function listarAmostras() {
     });
 
 }
+
 
 module.exports = {
 

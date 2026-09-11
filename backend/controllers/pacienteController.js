@@ -1,5 +1,6 @@
 const pacienteModel = require("../models/pacienteModel");
 
+
 // Cadastrar paciente
 async function cadastrar(req, res) {
 
@@ -7,29 +8,53 @@ async function cadastrar(req, res) {
 
     try {
 
+        if (!req.body.usuario_id) {
+
+            return res.status(400).json({
+                erro: "Usuário não identificado."
+            });
+
+        }
+
         const id = await pacienteModel.criarPaciente(req.body);
 
         res.status(201).json({
+
             mensagem: "Paciente cadastrado com sucesso!",
             id
+
         });
 
     } catch (erro) {
 
         res.status(500).json({
+
             erro: erro.message
+
         });
 
     }
 
 }
 
+
 // Listar pacientes
 async function listar(req, res) {
 
     try {
 
-        const pacientes = await pacienteModel.listarPacientes();
+        const usuario_id = req.query.usuario_id;
+
+        if (!usuario_id) {
+
+            return res.status(400).json({
+                erro: "Usuário não identificado."
+            });
+
+        }
+
+        const pacientes =
+            await pacienteModel.listarPacientes(usuario_id);
 
         res.json(pacientes);
 
@@ -45,44 +70,85 @@ async function listar(req, res) {
 
 }
 
+
+// Excluir paciente
 async function excluir(req, res) {
 
     try {
 
-        await pacienteModel.excluirPaciente(req.params.id);
+        const usuario_id = req.query.usuario_id;
+
+        if (!usuario_id) {
+
+            return res.status(400).json({
+                erro: "Usuário não identificado."
+            });
+
+        }
+
+        await pacienteModel.excluirPaciente(
+            req.params.id,
+            usuario_id
+        );
 
         res.json({
+
             mensagem: "Paciente excluído com sucesso!"
+
         });
 
     } catch (erro) {
 
         res.status(500).json({
+
             erro: erro.message
+
         });
 
     }
 
 }
+
+
+// Atualizar paciente
 async function atualizar(req, res) {
 
     try {
 
-        await pacienteModel.atualizarPaciente(req.params.id, req.body);
+        const usuario_id = req.body.usuario_id;
+
+        if (!usuario_id) {
+
+            return res.status(400).json({
+                erro: "Usuário não identificado."
+            });
+
+        }
+
+        await pacienteModel.atualizarPaciente(
+            req.params.id,
+            req.body,
+            usuario_id
+        );
 
         res.json({
+
             mensagem: "Paciente atualizado com sucesso!"
+
         });
 
     } catch (erro) {
 
         res.status(500).json({
+
             erro: erro.message
+
         });
 
     }
 
 }
+
 
 module.exports = {
 

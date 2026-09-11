@@ -56,11 +56,41 @@ async function cadastrar(req, res) {
 async function gerar(req, res) {
 
     try {
+        const idAmostra = req.params.id;
+
+const amostra = await new Promise((resolve, reject) => {
+
+    db.get(
+        "SELECT usuario_id FROM amostras WHERE id = ?",
+        [idAmostra],
+        (err, row) => {
+
+            if (err) {
+                reject(err);
+                return;
+            }
+
+            resolve(row);
+        }
+    );
+
+});
+
+if (!amostra) {
+
+    return res.status(404).json({
+        erro: "Amostra não encontrada."
+    });
+
+}
 
         const relatorio = {
 
             amostra_id:
-                req.params.id,
+    idAmostra,
+
+usuario_id:
+    amostra.usuario_id,
 
             resultado:
                 "",
@@ -124,8 +154,7 @@ async function listar(req, res) {
 
         const relatorios =
             await relatorioModel
-                .listarRelatorios();
-
+                .listarRelatorios(req.query.usuario_id);
 
         res.json(
             relatorios
@@ -149,7 +178,6 @@ async function listar(req, res) {
 
 }
 
-
 // =====================================================
 // BUSCAR RELATÓRIO
 // =====================================================
@@ -163,10 +191,10 @@ async function buscar(req, res) {
 
 
         const relatorio =
-            await relatorioModel
-                .buscarRelatorio(
-                    id
-                );
+    await relatorioModel.buscarRelatorio(
+        id,
+        req.query.usuario_id
+    );
 
 
         if (!relatorio) {
@@ -208,6 +236,10 @@ async function buscar(req, res) {
 // ATUALIZAR RELATÓRIO
 // =====================================================
 
+// =====================================================
+// ATUALIZAR RELATÓRIO
+// =====================================================
+
 async function atualizar(req, res) {
 
     try {
@@ -227,7 +259,8 @@ async function atualizar(req, res) {
                 .atualizarRelatorio(
                     id,
                     resultado,
-                    laudo
+                    laudo,
+                    req.query.usuario_id
                 );
 
 
