@@ -225,3 +225,102 @@ main.container {
     font-size: 13px;
     color: #555;
 }
+/* =====================================================
+   MODAL DO RELATÓRIO - TAMANHO MAIOR
+   ===================================================== */
+
+#modalRelatorio .modal-content {
+    width: 90%;
+    max-width: 900px;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 30px 35px;
+    box-sizing: border-box;
+}
+
+/* Título do relatório */
+#modalRelatorio .modal-content h2 {
+    font-size: 24px;
+    margin-bottom: 25px;
+}
+
+/* Títulos das seções */
+#modalRelatorio .modal-content h3 {
+    font-size: 18px;
+    margin-top: 25px;
+    margin-bottom: 15px;
+}
+
+/* Campos Resultado e Laudo */
+#modalRelatorio textarea {
+    width: 100%;
+    min-height: 110px;
+    box-sizing: border-box;
+    resize: vertical;
+    margin-top: 8px;
+    margin-bottom: 20px;
+}
+
+/* Área das opções de revisão */
+.revisao-opcoes {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 15px 0 20px;
+}
+
+.revisao-opcoes label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+/* Campo de alteração médica */
+#campoRevisaoMedica {
+    margin-top: 15px;
+}
+
+#revisaoMedica {
+    min-height: 130px;
+}
+
+/* Imagens */
+.imagens-relatorio {
+    width: 100%;
+}
+
+/* Análise da IA */
+.resultado-ia {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Botões */
+#modalRelatorio .modal-buttons {
+    margin-top: 25px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+.revisao-opcoes {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin: 15px 0 20px;
+}
+
+.revisao-opcoes label {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 8px;
+    width: fit-content;
+    cursor: pointer;
+}
+
+.revisao-opcoes input[type="radio"] {
+    width: auto;
+    margin: 0;
+    flex-shrink: 0;
+}

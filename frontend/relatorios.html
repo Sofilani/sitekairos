@@ -328,6 +328,76 @@
     </p>
 </div>
 
+<hr>
+
+<!-- ================================================= -->
+<!-- REVISÃO MÉDICA -->
+<!-- ================================================= -->
+
+<h3>
+    👨‍⚕️ Revisão médica
+</h3>
+
+<p>
+    <strong>
+        O médico confirma a análise realizada pela IA?
+    </strong>
+</p>
+
+<div class="revisao-opcoes">
+
+    <label>
+        <input
+            type="radio"
+            name="confirmacaoIa"
+            value="confirmado"
+        >
+        ✅ Confirmo a análise da IA
+    </label>
+
+    <label>
+        <input
+            type="radio"
+            name="confirmacaoIa"
+            value="alterar"
+        >
+        ✏️ Preciso alterar ou acrescentar informações
+    </label>
+
+</div>
+
+
+<div
+    id="campoRevisaoMedica"
+    style="display: none;"
+>
+
+    <label for="revisaoMedica">
+
+        <strong>
+            Alterações ou observações do médico
+        </strong>
+
+    </label>
+
+    <textarea
+        id="revisaoMedica"
+        placeholder="Digite aqui as alterações, correções ou informações adicionais..."
+    ></textarea>
+
+</div>
+
+
+<div
+    id="mensagemRevisao"
+    style="
+        display: none;
+        margin-top: 10px;
+        padding: 10px;
+        border-radius: 6px;
+    "
+></div>
+
 
 <!-- ================================================= -->
 <!-- BOTÕES -->

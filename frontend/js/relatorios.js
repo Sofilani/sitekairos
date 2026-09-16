@@ -102,11 +102,9 @@ async function carregarRelatorios() {
 
     try {
 
-        const resposta =
-    await fetch(
-        `http://localhost:3000/relatorios?usuario_id=${usuarioId}`
-    );
-
+       const resposta = await fetch(
+    `http://localhost:3000/relatorios?usuario_id=${usuarioId}`
+);
 
         if (!resposta.ok) {
 
@@ -455,12 +453,75 @@ console.log(
         // CARREGAR ANÁLISES DA IA
         // ---------------------------------------------
 
-        await carregarAnalisesIA(id);
+       await carregarAnalisesIA(id);
 
 
-        // ---------------------------------------------
-        // ABRIR MODAL
-        // ---------------------------------------------
+/// ---------------------------------------------
+// CARREGAR REVISÃO MÉDICA SALVA
+// ---------------------------------------------
+
+const opcoesConfirmacao =
+    document.querySelectorAll(
+        'input[name="confirmacaoIa"]'
+    );
+
+const campoRevisaoMedica =
+    document.getElementById(
+        "campoRevisaoMedica"
+    );
+
+const revisaoMedica =
+    document.getElementById(
+        "revisaoMedica"
+    );
+
+// Primeiro, limpar os campos
+opcoesConfirmacao.forEach((opcao) => {
+    opcao.checked = false;
+});
+
+if (campoRevisaoMedica) {
+    campoRevisaoMedica.style.display = "none";
+}
+
+if (revisaoMedica) {
+    revisaoMedica.value = "";
+}
+
+// Depois, carregar o que está salvo
+if (relatorio.revisao_status) {
+
+    const opcaoSalva =
+        document.querySelector(
+            `input[name="confirmacaoIa"][value="${relatorio.revisao_status}"]`
+        );
+
+    if (opcaoSalva) {
+        opcaoSalva.checked = true;
+    }
+
+    if (
+        relatorio.revisao_status === "alterar"
+    ) {
+
+        if (campoRevisaoMedica) {
+            campoRevisaoMedica.style.display =
+                "block";
+        }
+
+        if (revisaoMedica) {
+            revisaoMedica.value =
+                relatorio.revisao_medica || "";
+        }
+
+    }
+
+}
+
+
+// ---------------------------------------------
+// ABRIR MODAL
+// -----------------------------------------------------------------------------------------
 
         const modal =
             document.getElementById(
@@ -953,6 +1014,46 @@ if (btnSalvarRelatorio) {
                     ? campoLaudo.value
                     : "";
 
+                    const opcaoConfirmacao =
+    document.querySelector(
+        'input[name="confirmacaoIa"]:checked'
+    );
+
+const revisaoStatus =
+    opcaoConfirmacao
+        ? opcaoConfirmacao.value
+        : null;
+
+const campoRevisaoMedica =
+    document.getElementById(
+        "revisaoMedica"
+    );
+
+const revisaoMedicaTexto =
+    campoRevisaoMedica
+        ? campoRevisaoMedica.value
+        : "";
+if (!revisaoStatus) {
+
+    alert(
+        "Selecione se você confirma a análise da IA ou se deseja alterá-la."
+    );
+
+    return;
+
+}
+if (
+    revisaoStatus === "alterar" &&
+    !revisaoMedicaTexto.trim()
+) {
+
+    alert(
+        "Digite a alteração ou observação médica."
+    );
+
+    return;
+
+}
 
             try {
 
@@ -972,13 +1073,16 @@ if (btnSalvarRelatorio) {
 
                             },
 
-                            body:
-                                JSON.stringify({
+                           body:
+    JSON.stringify({
 
-                                    resultado,
-                                    laudo
+        resultado,
+        laudo,
+        revisao_status: revisaoStatus,
+        revisao_medica: revisaoMedicaTexto,
+        revisado_por: usuarioId
 
-                                })
+    })
 
                         }
 
@@ -1076,7 +1180,77 @@ if (btnGerarPDF) {
     };
 
 }
+// =====================================================
+// REVISÃO MÉDICA
+// =====================================================
 
+const opcoesConfirmacao =
+    document.querySelectorAll(
+        'input[name="confirmacaoIa"]'
+    );
+
+const campoRevisaoMedica =
+    document.getElementById(
+        "campoRevisaoMedica"
+    );
+
+const revisaoMedica =
+    document.getElementById(
+        "revisaoMedica"
+    );
+
+
+// Quando o médico escolher uma opção
+opcoesConfirmacao.forEach((opcao) => {
+
+    opcao.addEventListener("change", () => {
+
+        // ---------------------------------------------
+        // MÉDICO CONFIRMOU A IA
+        // ---------------------------------------------
+
+        if (
+            opcao.value === "confirmado" &&
+            opcao.checked
+        ) {
+
+            if (campoRevisaoMedica) {
+
+                campoRevisaoMedica.style.display =
+                    "none";
+
+            }
+
+            if (revisaoMedica) {
+
+                revisaoMedica.value = "";
+
+            }
+
+        }
+
+
+        // ---------------------------------------------
+        // MÉDICO QUER ALTERAR
+        // ---------------------------------------------
+
+        if (
+            opcao.value === "alterar" &&
+            opcao.checked
+        ) {
+
+            if (campoRevisaoMedica) {
+
+                campoRevisaoMedica.style.display =
+                    "block";
+
+            }
+
+        }
+
+    });
+
+});
 
 // =====================================================
 // INICIAR

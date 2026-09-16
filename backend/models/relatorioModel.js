@@ -114,9 +114,14 @@ function buscarRelatorio(id, usuario_id) {
                 amostras.data_coleta,
 
                 relatorios.resultado,
-                relatorios.laudo,
-                relatorios.status,
-                relatorios.data_emissao
+relatorios.laudo,
+relatorios.status,
+relatorios.data_emissao,
+
+relatorios.revisao_status,
+relatorios.revisao_medica,
+relatorios.revisado_por,
+relatorios.revisado_em
 
             FROM relatorios
 
@@ -207,40 +212,74 @@ function atualizarRelatorio(
     id,
     resultado,
     laudo,
-    usuario_id
+    usuario_id,
+    revisao_status,
+    revisao_medica,
+    revisado_por
 ) {
 
     return new Promise((resolve, reject) => {
 
+        const sql = `
+            UPDATE relatorios
+
+            SET
+                resultado = ?,
+                laudo = ?,
+                revisao_status = ?,
+                revisao_medica = ?,
+                revisado_por = ?,
+                revisado_em = CURRENT_TIMESTAMP,
+                status = ?
+
+            WHERE id = ?
+            AND usuario_id = ?
+        `;
+
+
+        // Se confirmou a IA, o relatório fica aprovado.
+        // Se alterou, também fica aprovado após a revisão médica.
+        const novoStatus =
+            revisao_status === "confirmado" ||
+            revisao_status === "alterar"
+                ? "Aprovado pelo médico"
+                : "Aguardando revisão";
+
+
         db.run(
 
-            `UPDATE relatorios
-
-             SET
-                resultado = ?,
-                laudo = ?
-
-             WHERE id = ?
-             AND usuario_id = ?`,
+            sql,
 
             [
                 resultado,
                 laudo,
+                revisao_status,
+                revisao_medica || null,
+                revisado_por || null,
+                novoStatus,
                 id,
                 usuario_id
             ],
 
-            function(err) {
+            function (err) {
 
                 if (err) {
 
+                    console.error(
+                        "Erro ao atualizar relatório:",
+                        err
+                    );
+
                     reject(err);
 
-                } else {
-
-                    resolve(this.changes);
+                    return;
 
                 }
+
+
+                resolve(
+                    this.changes
+                );
 
             }
 

@@ -250,8 +250,27 @@ async function atualizar(req, res) {
 
         const {
             resultado,
-            laudo
+            laudo,
+            revisao_status,
+            revisao_medica,
+            revisado_por
         } = req.body;
+
+
+        const usuarioId =
+            req.query.usuario_id;
+
+
+        if (!usuarioId) {
+
+            return res.status(400).json({
+
+                erro:
+                    "Usuário não identificado."
+
+            });
+
+        }
 
 
         const alterados =
@@ -260,7 +279,10 @@ async function atualizar(req, res) {
                     id,
                     resultado,
                     laudo,
-                    req.query.usuario_id
+                    usuarioId,
+                    revisao_status,
+                    revisao_medica,
+                    revisado_por
                 );
 
 
@@ -279,9 +301,10 @@ async function atualizar(req, res) {
         res.json({
 
             mensagem:
-                "Relatório atualizado com sucesso!"
+                "Relatório e revisão médica salvos com sucesso!"
 
         });
+
 
     } catch (err) {
 
@@ -289,6 +312,7 @@ async function atualizar(req, res) {
             "Erro ao atualizar relatório:",
             err
         );
+
 
         res.status(500).json({
 
@@ -300,7 +324,6 @@ async function atualizar(req, res) {
     }
 
 }
-
 
 // =====================================================
 // GERAR PDF
