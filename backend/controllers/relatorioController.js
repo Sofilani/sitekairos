@@ -349,24 +349,18 @@ async function gerarPDF(req, res) {
 
                         `
                         SELECT
-
-                            relatorios.id,
-
-                            relatorios.amostra_id,
-
-                            pacientes.nome AS paciente,
-
-                            amostras.tipo,
-
-                            amostras.data_coleta,
-
-                            relatorios.resultado,
-
-                            relatorios.laudo,
-
-                            relatorios.status,
-
-                            relatorios.data_emissao
+    relatorios.id,
+    relatorios.amostra_id,
+    pacientes.nome AS paciente,
+    amostras.tipo,
+    amostras.data_coleta,
+    relatorios.resultado,
+    relatorios.laudo,
+    relatorios.status,
+    relatorios.data_emissao,
+    relatorios.revisao_status,
+    relatorios.revisao_medica,
+    usuarios.nome AS nome_medico
 
                         FROM relatorios
 
@@ -377,6 +371,8 @@ async function gerarPDF(req, res) {
                         INNER JOIN pacientes
                             ON pacientes.id =
                                amostras.paciente_id
+                               LEFT JOIN usuarios
+    ON usuarios.id = relatorios.revisado_por
 
                         WHERE relatorios.id = ?
 
@@ -714,7 +710,73 @@ async function gerarPDF(req, res) {
                 }
 
             );
+// =================================================
+// REVISÃO MÉDICA
+// =================================================
 
+doc.moveDown(2);
+
+tituloSecao(
+    "REVISÃO MÉDICA"
+);
+
+doc
+    .font("Helvetica")
+    .fontSize(10.5);
+
+let textoRevisao = "";
+
+if (relatorio.revisao_status === "confirmado") {
+    textoRevisao =
+        "Análise da IA: Confirmada";
+} else if (relatorio.revisao_status === "alterar") {
+    textoRevisao =
+        "Análise da IA: Revisada";
+} else {
+    textoRevisao =
+        "Análise da IA: Não revisada";
+}
+
+doc.text(textoRevisao);
+
+if (
+    relatorio.revisao_medica &&
+    relatorio.revisao_medica.trim()
+) {
+    doc.moveDown(0.5);
+
+    doc
+        .font("Helvetica-Bold")
+        .text(
+            "Observações do médico:"
+        );
+
+    doc
+        .font("Helvetica")
+        .text(
+            relatorio.revisao_medica,
+            {
+                width: 485,
+                align: "left"
+            }
+        );
+}
+
+if (relatorio.nome_medico) {
+    doc.moveDown(0.8);
+
+    doc
+        .font("Helvetica-Bold")
+        .text(
+            `Médico responsável pela revisão: ${relatorio.nome_medico}`
+        );
+}
+
+doc.moveDown(2);
+
+// =================================================
+// ANÁLISES DA IA
+// =================================================
 
         // =================================================
         // ANÁLISES DA IA
