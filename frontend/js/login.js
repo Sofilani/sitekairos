@@ -67,8 +67,8 @@ if (formLogin) {
                 // =================================================
 
                 const resposta =
-                    await fetch(
-                        "http://localhost:3000/login",
+                   await fetch(
+    "/login",
                         {
                             method: "POST",
 

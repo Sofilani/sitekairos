@@ -149,7 +149,7 @@ async function carregarPacientes() {
 
         const resposta = await fetch(
 
-            `http://localhost:3000/pacientes?usuario_id=${usuarioId}`
+            `/pacientes?usuario_id=${usuarioId}`
 
         );
 
@@ -209,8 +209,7 @@ async function carregarAmostras() {
 
         const resposta = await fetch(
 
-            `http://localhost:3000/amostras?usuario_id=${usuarioId}`
-
+            `/amostras?usuario_id=${usuarioId}`
         );
 
 
@@ -344,7 +343,7 @@ btnSalvar.onclick = async () => {
 
         const resposta = await fetch(
 
-            "http://localhost:3000/amostras",
+            "/amostras",
 
             {
 
@@ -434,7 +433,7 @@ async function gerarRelatorio(idAmostra) {
 
     const resposta = await fetch(
 
-        `http://localhost:3000/relatorios/${idAmostra}`,
+        `/relatorios/${idAmostra}`,
 
         {
 

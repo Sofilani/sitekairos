@@ -6,7 +6,7 @@ botaoCadastrar.addEventListener("click", async function () {
     const email = document.getElementById("email").value;
     const senha = document.getElementById("senha").value;
 
-    const resposta = await fetch("http://localhost:3000/usuarios", {
+    const resposta = await fetch("/usuarios", {
 
         method: "POST",
 

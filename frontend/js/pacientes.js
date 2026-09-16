@@ -191,8 +191,8 @@ async function carregarPacientes() {
     try {
 
         const resposta = await fetch(
-            `http://localhost:3000/pacientes?usuario_id=${usuarioId}`
-        );
+    `/pacientes?usuario_id=${usuarioId}`
+);
 
         if (!resposta.ok) {
 
@@ -316,11 +316,11 @@ if (btnSalvar) {
 
         try {
 
-            const url = pacienteEditando
+           const url = pacienteEditando
 
-                ? `http://localhost:3000/pacientes/${pacienteEditando}`
+    ? `/pacientes/${pacienteEditando}`
 
-                : "http://localhost:3000/pacientes";
+    : "/pacientes";
 
 
             const metodo =
@@ -411,7 +411,7 @@ async function excluirPaciente(id) {
 
         const resposta = await fetch(
 
-            `http://localhost:3000/pacientes/${id}?usuario_id=${usuarioId}`,
+            `/pacientes/${id}?usuario_id=${usuarioId}`,
 
             {
                 method: "DELETE"

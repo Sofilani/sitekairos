@@ -76,9 +76,9 @@ async function carregarDashboard() {
 
 
         const resposta =
-            await fetch(
-                `http://localhost:3000/dashboard?usuario_id=${usuario.id}`
-            );
+    await fetch(
+        `/dashboard?usuario_id=${usuario.id}`
+    );
 
 
         if (!resposta.ok) {

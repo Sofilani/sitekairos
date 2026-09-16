@@ -103,7 +103,7 @@ async function carregarRelatorios() {
     try {
 
        const resposta = await fetch(
-    `http://localhost:3000/relatorios?usuario_id=${usuarioId}`
+    `/relatorios?usuario_id=${usuarioId}`
 );
 
         if (!resposta.ok) {
@@ -272,7 +272,7 @@ if (!usuarioSalvo) {
 const usuario = JSON.parse(usuarioSalvo);
 
 const resposta = await fetch(
-    `http://localhost:3000/relatorios/${id}?usuario_id=${usuario.id}`
+    `/relatorios/${id}?usuario_id=${usuario.id}`
 );
 
 console.log(
@@ -630,8 +630,7 @@ function mostrarImagens(imagens) {
             }
 
             caminhoImagem =
-                "http://localhost:3000" +
-                caminhoImagem;
+    caminhoImagem;
 
         }
 
@@ -702,8 +701,8 @@ async function carregarAnalisesIA(id) {
     try {
 
         const resposta = await fetch(
-            `http://localhost:3000/relatorios/${id}/analises-ia?usuario_id=${usuario.id}`
-        );
+    `/relatorios/${id}/analises-ia?usuario_id=${usuario.id}`
+);
 
         console.log(
             "Status da resposta das análises IA:",
@@ -1030,7 +1029,7 @@ if (
                 const resposta =
                     await fetch(
 
-                        `http://localhost:3000/relatorios/${relatorioAtual}?usuario_id=${usuarioId}`,
+                        `/relatorios/${relatorioAtual}?usuario_id=${usuarioId}`,
                         {
 
                             method: "PUT",
@@ -1140,7 +1139,7 @@ if (btnGerarPDF) {
 
         window.open(
 
-            `http://localhost:3000/relatorios/${relatorioAtual}/pdf`,
+            `/relatorios/${relatorioAtual}/pdf?usuario_id=${usuarioId}`,
 
             "_blank"
 
