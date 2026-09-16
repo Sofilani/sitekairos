@@ -272,34 +272,29 @@ if (!usuarioSalvo) {
 const usuario = JSON.parse(usuarioSalvo);
 
 const resposta = await fetch(
-    `http://localhost:3000/relatorios?usuario_id=${usuario.id}`
+    `http://localhost:3000/relatorios/${id}?usuario_id=${usuario.id}`
 );
 
+console.log(
+    "Status da resposta:",
+    resposta.status
+);
 
-        console.log(
-            "Status da resposta:",
-            resposta.status
-        );
-
-
-        if (!resposta.ok) {
-
-            alert(
-                "Não foi possível encontrar o relatório."
-            );
-
-            return;
-
-        }
-
-
-      const relatorios =
-    await resposta.json();
-
-const relatorio =
-    relatorios.find(
-        r => Number(r.id) === Number(id)
+if (!resposta.ok) {
+    alert(
+        "Não foi possível encontrar o relatório."
     );
+    return;
+}
+
+const relatorio = await resposta.json();
+
+if (!relatorio) {
+    alert(
+        "Relatório não encontrado."
+    );
+    return;
+}
 
 
 if (!relatorio) {
@@ -686,7 +681,6 @@ async function carregarAnalisesIA(id) {
             "analisesIaRelatorio"
         );
 
-
     if (!container) {
 
         console.error(
@@ -697,7 +691,6 @@ async function carregarAnalisesIA(id) {
 
     }
 
-
     container.innerHTML = `
 
         <p>
@@ -706,14 +699,16 @@ async function carregarAnalisesIA(id) {
 
     `;
 
-
     try {
 
-        const resposta =
-            await fetch(
-                `http://localhost:3000/relatorios/${id}/analises-ia`
-            );
+        const resposta = await fetch(
+            `http://localhost:3000/relatorios/${id}/analises-ia?usuario_id=${usuario.id}`
+        );
 
+        console.log(
+            "Status da resposta das análises IA:",
+            resposta.status
+        );
 
         if (!resposta.ok) {
 
@@ -723,29 +718,17 @@ async function carregarAnalisesIA(id) {
 
         }
 
-
         const analises =
             await resposta.json();
 
-
-        console.log(
-            "Análises da IA:",
-            analises
-        );
-
-
         container.innerHTML = "";
 
-
-        if (
-            !analises ||
-            analises.length === 0
-        ) {
+        if (!analises || analises.length === 0) {
 
             container.innerHTML = `
 
                 <p>
-                    Nenhuma análise realizada pela IA.
+                    Nenhuma análise da IA encontrada.
                 </p>
 
             `;
@@ -753,7 +736,6 @@ async function carregarAnalisesIA(id) {
             return;
 
         }
-
 
         // ---------------------------------------------
         // MOSTRAR TODAS AS ANÁLISES
@@ -766,10 +748,8 @@ async function carregarAnalisesIA(id) {
                     "div"
                 );
 
-
             div.className =
                 "analise-ia";
-
 
             const confianca =
                 analise.confianca != null
@@ -780,12 +760,10 @@ async function carregarAnalisesIA(id) {
                     ).toFixed(2) + "%"
                     : "-";
 
-
             const tempo =
                 analise.tempo_processamento != null
                     ? `${analise.tempo_processamento} segundos`
                     : "-";
-
 
             div.innerHTML = `
 
@@ -801,7 +779,6 @@ async function carregarAnalisesIA(id) {
 
                     </p>
 
-
                     <p>
 
                         <strong>
@@ -812,7 +789,6 @@ async function carregarAnalisesIA(id) {
 
                     </p>
 
-
                     <p>
 
                         <strong>
@@ -822,7 +798,6 @@ async function carregarAnalisesIA(id) {
                         ${tempo}
 
                     </p>
-
 
                     ${
                         analise.arquivo
@@ -841,7 +816,6 @@ async function carregarAnalisesIA(id) {
                             `
                             : ""
                     }
-
 
                     ${
                         analise.camera
@@ -865,13 +839,11 @@ async function carregarAnalisesIA(id) {
 
             `;
 
-
             container.appendChild(
                 div
             );
 
         });
-
 
     } catch (erro) {
 
@@ -879,7 +851,6 @@ async function carregarAnalisesIA(id) {
             "Erro ao carregar análises da IA:",
             erro
         );
-
 
         container.innerHTML = `
 
@@ -895,7 +866,6 @@ async function carregarAnalisesIA(id) {
     }
 
 }
-
 
 // =====================================================
 // FECHAR MODAL
@@ -1060,8 +1030,7 @@ if (
                 const resposta =
                     await fetch(
 
-                        `http://localhost:3000/relatorios/${relatorioAtual}`,
-
+                        `http://localhost:3000/relatorios/${relatorioAtual}?usuario_id=${usuarioId}`,
                         {
 
                             method: "PUT",
